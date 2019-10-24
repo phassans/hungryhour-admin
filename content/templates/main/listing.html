@@ -1,0 +1,94 @@
+{% extends 'layouts/default/master_layout.html' %}
+{% load i18n %}
+{% block content %}
+<!-- {{ data }} -->
+
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Business</h6>
+        <a href="listing/add" class="mt-2 btn btn-primary btn-icon-split btn-sm">
+            <span class="icon text-white-50">
+                <i class="fas fa-flag"></i>
+            </span>
+            <span class="text">Add New Listing</span>
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>city</th>
+
+                        <th>postal code</th>
+                        <th>edit</th>
+                        <!-- <th>website</th> -->
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>city</th>
+
+                        <th>postal code</th>
+                        <th>edit</th>
+                        <!-- <th>website</th> -->
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for d in data %}
+                    <tr>
+                        <td>{{d.name}}</td>
+                        <td>{{ d.phone }}</td>
+                        <td>{{ d.city }}</td>
+
+                        <td>{{ d.postalCode }}</td>
+                        <td>
+                            <a href="/business/edit/{{d.businessId}}" class="btn btn-primary btn-circle btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" data-id="{{ d.businessId }}"
+                                class="delete-business btn btn-danger btn-circle btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                        <!-- <td>{{ d.website }}</td> -->
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Business</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure to delete this business ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="#" class="del-final btn btn-danger">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

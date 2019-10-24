@@ -1,0 +1,333 @@
+{% extends 'layouts/default/master_layout.html' %}
+{% load i18n %}
+{% block content %}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add Business</h6>
+        {{data}}
+    </div>
+    <div class="card-body">
+        <form action="/business/insert" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" name="name" required placeholder="Name"
+                        value="{{data.business.name}}">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="phone" required placeholder="Phone"
+                        value="{{data.business.phone}}">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="website" placeholder="Website"
+                        value="{{data.business.website}}">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                    <input type="text" class="form-control" name="state" required placeholder="State"
+                        value="{{data.businessAddress.state}}">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="city" required placeholder="City"
+                        value="{{data.businessAddress.city}}">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="street" required placeholder="Street"
+                        value="{{data.businessAddress.street}}">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                    <input type="text" class="form-control" name="postalCode" required placeholder="Postal code"
+                        value="{{data.businessAddress.postalCode}}">
+                </div>
+
+                <div class="col">
+                    <select class="form-control" multiple name="cuisine" required>
+                        <option>Select multiple Cuisine</option>
+                        <option value="cuba" {% for c in data.businessCuisine.cuisine %} {% if c == 'cuba' %} selected
+                            {% endif %} {% endfor%}>Cuba</option>
+                        <option value="mexican" {% for c in data.businessCuisine.cuisine %} {% if c == 'mexican' %}
+                            selected {% endif %} {% endfor%}>Mexican</option>
+
+                        <option value="Continental" {% for c in data.businessCuisine.cuisine %}
+                            {% if c == 'Continental' %} selected {% endif %} {% endfor%}>Continental</option>
+                        <option value="Asian" {% for c in data.businessCuisine.cuisine %} {% if c == 'Asian' %} selected
+                            {% endif %} {% endfor%}>Asian</option>
+                        <option value="Italian" {% for c in data.businessCuisine.cuisine %} {% if c == 'Italian' %}
+                            selected {% endif %} {% endfor%}>Italian</option>
+                        <option value="North Indian" {% for c in data.businessCuisine.cuisine %}
+                            {% if c == 'North Indian' %} selected {% endif %} {% endfor%}>North Indian</option>
+                    </select>
+                    <input type="hidden" id="time-var" name="time" value="0">
+                    <input type="hidden" id="businessid" name="businessid" value="{{data.business.businessId}}">
+                </div>
+
+            </div>
+            {% for t in data.businessHoursFormatted %}
+            {{ t }}<br>
+            {% endfor %}
+            <button class="edit-time btn btn-secondary mt-3 btn-icon-split btn-sm"> <span class="icon text-white-50">
+                    <i class="fas fa-edit"></i>
+                </span>
+                <span class="text">edit time</span></button>
+            <div class="hidden time-form">
+                <div class="row mt-5">
+                    <div class="col">
+                        <label>day</label>
+                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="monday" required
+                            placeholder="Day">
+                    </div>
+                    <div class="col">
+                        <label>open time session one</label>
+                        <input type="time" class="form-control" name="open_time_session_one[]"
+                            placeholder="Open time session one">
+                    </div>
+                    <div class="col">
+                        <label>close time session one</label>
+                        <input type="time" class="form-control" name="close_time_session_one[]"
+                            placeholder="Close time session one">
+
+                    </div>
+
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <label>open time session two</label>
+                        <input type="time" class="form-control" name="open_time_session_two[]"
+                            placeholder="Open time session one">
+
+                    </div>
+                    <div class="col">
+                        <label>close time session two</label>
+                        <input type="time" class="form-control" name="close_time_session_two[]"
+                            placeholder="Close time session two">
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                        <label>day</label>
+                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="tuesday"
+                            required placeholder="Day">
+                    </div>
+                    <div class="col">
+                        <label>open time session one</label>
+                        <input type="time" class="form-control" name="open_time_session_one[]"
+                            placeholder="Open time session one">
+                    </div>
+                    <div class="col">
+                        <label>close time session one</label>
+                        <input type="time" class="form-control" name="close_time_session_one[]"
+                            placeholder="Close time session one">
+
+                    </div>
+
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <label>open time session two</label>
+                        <input type="time" class="form-control" name="open_time_session_two[]"
+                            placeholder="Open time session one">
+
+                    </div>
+                    <div class="col">
+                        <label>close time session two</label>
+                        <input type="time" class="form-control" name="close_time_session_two[]"
+                            placeholder="Close time session two">
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col">
+                        <label>day</label>
+                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="wednesday"
+                            required placeholder="Day">
+                    </div>
+                    <div class="col">
+                        <label>open time session one</label>
+                        <input type="time" class="form-control" name="open_time_session_one[]"
+                            placeholder="Open time session one">
+                    </div>
+                    <div class="col">
+                        <label>close time session one</label>
+                        <input type="time" class="form-control" name="close_time_session_one[]"
+                            placeholder="Close time session one">
+
+                    </div>
+
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <label>open time session two</label>
+                        <input type="time" class="form-control" name="open_time_session_two[]"
+                            placeholder="Open time session one">
+
+                    </div>
+                    <div class="col">
+                        <label>close time session two</label>
+                        <input type="time" class="form-control" name="close_time_session_two[]"
+                            placeholder="Close time session two">
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col">
+                        <label>day</label>
+                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="thursday"
+                            required placeholder="Day">
+                    </div>
+                    <div class="col">
+                        <label>open time session one</label>
+                        <input type="time" class="form-control" name="open_time_session_one[]"
+                            placeholder="Open time session one">
+                    </div>
+                    <div class="col">
+                        <label>close time session one</label>
+                        <input type="time" class="form-control" name="close_time_session_one[]"
+                            placeholder="Close time session one">
+
+                    </div>
+
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <label>open time session two</label>
+                        <input type="time" class="form-control" name="open_time_session_two[]"
+                            placeholder="Open time session one">
+
+                    </div>
+                    <div class="col">
+                        <label>close time session two</label>
+                        <input type="time" class="form-control" name="close_time_session_two[]"
+                            placeholder="Close time session two">
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col">
+                        <label>day</label>
+                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="friday" required
+                            placeholder="Day">
+                    </div>
+                    <div class="col">
+                        <label>open time session one</label>
+                        <input type="time" class="form-control" name="open_time_session_one[]"
+                            placeholder="Open time session one">
+                    </div>
+                    <div class="col">
+                        <label>close time session one</label>
+                        <input type="time" class="form-control" name="close_time_session_one[]"
+                            placeholder="Close time session one">
+
+                    </div>
+
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <label>open time session two</label>
+                        <input type="time" class="form-control" name="open_time_session_two[]"
+                            placeholder="Open time session one">
+
+                    </div>
+                    <div class="col">
+                        <label>close time session two</label>
+                        <input type="time" class="form-control" name="close_time_session_two[]"
+                            placeholder="Close time session two">
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col">
+                        <label>day</label>
+                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="saturday"
+                            required placeholder="Day">
+                    </div>
+                    <div class="col">
+                        <label>open time session one</label>
+                        <input type="time" class="form-control" name="open_time_session_one[]"
+                            placeholder="Open time session one">
+                    </div>
+                    <div class="col">
+                        <label>close time session one</label>
+                        <input type="time" class="form-control" name="close_time_session_one[]"
+                            placeholder="Close time session one">
+
+                    </div>
+
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <label>open time session two</label>
+                        <input type="time" class="form-control" name="open_time_session_two[]"
+                            placeholder="Open time session one">
+
+                    </div>
+                    <div class="col">
+                        <label>close time session two</label>
+                        <input type="time" class="form-control" name="close_time_session_two[]"
+                            placeholder="Close time session two">
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col">
+                        <label>day</label>
+                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="sunday" required
+                            placeholder="Day">
+                    </div>
+                    <div class="col">
+                        <label>open time session one</label>
+                        <input type="time" class="form-control" name="open_time_session_one[]"
+                            placeholder="Open time session one">
+                    </div>
+                    <div class="col">
+                        <label>close time session one</label>
+                        <input type="time" class="form-control" name="close_time_session_one[]"
+                            placeholder="Close time session one">
+
+                    </div>
+
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <label>open time session two</label>
+                        <input type="time" class="form-control" name="open_time_session_two[]"
+                            placeholder="Open time session one">
+
+                    </div>
+                    <div class="col">
+                        <label>close time session two</label>
+                        <input type="time" class="form-control" name="close_time_session_two[]"
+                            placeholder="Close time session two">
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="mt-5 btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-flag"></i>
+                    </span>
+                    <span class="text">Edit Business</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

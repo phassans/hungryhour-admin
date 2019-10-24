@@ -1,0 +1,118 @@
+{% extends 'layouts/default/master_layout.html' %}
+{% load i18n %}
+{% block content %}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add Listing</h6>
+
+    </div>
+    <div class="card-body">
+        <form action="/listing/insert" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row mt-5 mb-5">
+                <div class="col"></div>
+                <div class="col">
+                    <label>Select business</label>
+                    <select name="businessId" required class="form-control">
+                        {% for d in data %}
+                        <option value="{{ d.businessId }}">{{ d.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" name="title" required placeholder="title">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="discountDescription" required
+                        placeholder="discount description">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="description" required placeholder="description">
+                </div>
+                <!-- <div class="col">
+                    <input type="text" class="form-control" required name="dietaryRestriction"
+                        placeholder="dietaryRestriction values seperated by comma ,">
+                </div> -->
+            </div>
+
+            <div class="row mt-5">
+                <div class="col">
+                    <label for="">start date</label>
+                    <input type="date" class="form-control" name="startDate" required
+                        placeholder="Month/Date/Year 07/17/2019">
+                </div>
+                <div class="col">
+                    <label for="">recurring end date</label>
+                    <input type="date" class="form-control" name="recurringEndDate"
+                        placeholder="Month/Date/Year 07/31/2019">
+                </div>
+
+
+
+                <!-- <div class="col">
+                    <label for="">end date</label>
+                    <input type="text" class="form-control" name="endDate" required
+                        placeholder="Month/Date/Year 07/31/2019">
+                </div> -->
+            </div>
+
+            <div class="row mt-5">
+                <div class="col">
+                    <label for="">start time</label>
+                    <input type="time" class="form-control" name="startTime" required placeholder="HH:MM:SS 11:00:00">
+                </div>
+                <div class="col">
+                    <label for="">end time</label>
+                    <input type="time" class="form-control" name="endTime" required placeholder="HH:MM:SS 23:59:00">
+                </div>
+            </div>
+
+            <div class="row mt-5">
+
+                <div class="col">
+                    <label for="">recurring</label><br>
+                    <label class="radio-inline"><input type="radio" name="recurring" required value="True">Yes</label>
+                    <label class="radio-inline"><input type="radio" name="recurring" required checked
+                            value="False">No</label>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+
+                <div class="col">
+                    <label for="">recurring days</label><br>
+                    <input type="checkbox" class="" name="recurringDays[]" id="" value="monday"> Monday<br>
+                    <input type="checkbox" class="" name="recurringDays[]" id="" value="tuesday"> Tuesday<br>
+                    <input type="checkbox" class="" name="recurringDays[]" id="" value="wednesday"> Wednesday<br>
+                    <input type="checkbox" class="" name="recurringDays[]" id="" value="thursday"> Thursday<br>
+                    <input type="checkbox" class="" name="recurringDays[]" id="" value="friday"> Friday<br>
+                    <input type="checkbox" class="" name="recurringDays[]" id="" value="saturday"> Saturday<br>
+                    <input type="checkbox" class="" name="recurringDays[]" id="" value="sunday"> Sunday<br>
+                </div>
+
+
+
+                <div class="col">
+                    <label for="">upload multiple images</label>
+                    <input type='file' class="form-control" name="images" />
+                </div>
+
+            </div>
+
+
+
+            <div class="text-center">
+                <button type="submit" class="mt-5 btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-flag"></i>
+                    </span>
+                    <span class="text">Add New Business</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
