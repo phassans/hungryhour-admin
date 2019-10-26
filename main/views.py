@@ -197,8 +197,14 @@ class BusinessListingEditView(View):
 
     def post(self, request, id):
         print(id)
-        print(request.POST)
-        print(request.FILES)
+        print(request.FILES.getlist('images'))
+        print(json.dumps(request.POST))
+        # import code;
+        # code.interact(local=dict(globals(), **locals()))
+        response = requests.post('https://www.itshungryhour.com/api/v1//listing/edit',
+                                 data=json.dumps(request.POST))
+        print(response)
+        print(response.json())
         return
 
 

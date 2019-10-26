@@ -8,6 +8,8 @@
         <div class="card-body">
             <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                <input type="hidden" id="businessId" name="businessId" value="{{listing_data.businessId}}">
+                <input type="hidden" id="listingId" name="listingId" value="{{listing_data.listingId}}">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="title">Title</label>
@@ -29,12 +31,12 @@
                     <div class="form-group col-md-6">
                         <label for="startDate">Start Date</label>
                         <input type="date" class="form-control" name="startDate" id="startDate" required
-                               value="{{listing_data.startDate|date:'d m Y'}}">
+                               value="{{listing_data.startDate}}">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="endDate">End Date</label>
                         <input type="date" class="form-control" name="endDate" id="endDate"
-                               value="{{listing_data.startDate|date:'d m Y'}}">
+                               value="{{listing_data.endDate}}">
                     </div>
 
                 </div>
@@ -144,15 +146,16 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="recurringEndDate">Recurring End-Date</label>
-                        <input type="date" class="form-control" name="startDate" id="recurringEndDate" required
+                        <input type="date" class="form-control" name="recurringEndDate" id="recurringEndDate" required
                                value="{{listing_data.startDate|date:'d m Y'}}">
                     </div>
                 </div>
                 <div class="form-row">
                     <label for="images">Images</label>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="images" aria-describedby="fileHelp" multiple
-                               required accept="image/*" value="{{listing_data.imageLink}}" onchange="handleFiles(this.files)">
+                        <input type="file" class="custom-file-input" name="images" id="images"
+                               aria-describedby="fileHelp" multiple required accept="image/*"
+                               value="{{listing_data.imageLink}}" onchange="handleFiles(this.files)">
                         <label class="custom-file-label" for="images">Select file...</label>
                     </div>
                 </div>
