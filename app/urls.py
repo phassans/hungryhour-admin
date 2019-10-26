@@ -19,6 +19,9 @@ urlpatterns = [
     path('listing', ListingPageView.as_view(), name='listing'),
     path('listing/add', AddListingPageView.as_view(), name='addbusiness'),
     path('listing/insert', InsertListing, name='insertlisting'),
+    path('listing/all', BusinessListingView.as_view(), name='listing_all'),
+    path('listing/edit/<int:id>', BusinessListingEditView.as_view(), name='listing_edit'),
+    path('listing/delete/<int:id>', BusinessListingDeleteView.as_view(), name='listing_edit'),
 
     path('i18n/', include('django.conf.urls.i18n')),
     path('language/', ChangeLanguageView.as_view(), name='change_language'),

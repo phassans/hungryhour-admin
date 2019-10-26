@@ -1,5 +1,6 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 import requests
 import json
 from django.http import JsonResponse
@@ -33,12 +34,11 @@ class ListingPageView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(ListingPageView, self).get_context_data(
             *args, **kwargs)
-        context['message'] = 'Hello World!'
         response = requests.get(
             'https://www.itshungryhour.com/api/v1/business/all')
-        data = response.json()
-        # print(data)
-        context['data'] = data
+        print(response)
+        business_list = response.json()
+        context['business_list'] = business_list
         return context
 
 
@@ -169,3 +169,44 @@ class DeleteBusinessPageView(TemplateView):
         # print(data)
         context['data'] = data
         return context
+
+
+class BusinessListingView(View):
+
+    def get(self, request):
+        print(request.GET)
+        response = requests.post('https://www.itshungryhour.com/api/v1//listing/all',
+                                 data=json.dumps({"businessId": int(request.GET.get('business_id'))}))
+        # import code;
+        # code.interact(local=dict(globals(), **locals()))
+        print(response.status_code==200)
+        business_listing = response.json()
+        context = {'business_listing': business_listing}
+        return JsonResponse(context)
+
+
+class BusinessListingEditView(View):
+
+    def get(self, request, id):
+        response = requests.get(
+            'https://www.itshungryhour.com/api/v1/listing/admin?listingId=' + str(id))
+        listing_data = response.json()
+        print(listing_data)
+        context = {'listing_data': listing_data}
+        return render(request, 'main/listing_edit.html', context)
+
+    def post(self, request, id):
+        print(id)
+        print(request.POST)
+        print(request.FILES)
+        return
+
+
+class BusinessListingDeleteView(View):
+
+    def post(self, request, id):
+        print(id)
+        response = requests.post('https://www.itshungryhour.com/api/v1//listing/delete',
+                                 data=json.dumps({"listingId": id}))
+        print(response.json())
+        return JsonResponse({})

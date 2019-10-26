@@ -1,0 +1,209 @@
+{% extends 'layouts/default/master_layout.html' %}
+{% load i18n %}
+{% block content %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Change Listing</h6>
+        </div>
+        <div class="card-body">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" name="title" required id="title" placeholder="Title"
+                               value="{{listing_data.title}}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="discountDescription">Discount Description</label>
+                        <input type="text" class="form-control" name="discountDescription" id="discountDescription"
+                               placeholder="Discount Description" value="{{listing_data.discountDescription}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description" name="description" required
+                           placeholder="Description" value="{{listing_data.description}}">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" class="form-control" name="startDate" id="startDate" required
+                               value="{{listing_data.startDate|date:'d m Y'}}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="endDate">End Date</label>
+                        <input type="date" class="form-control" name="endDate" id="endDate"
+                               value="{{listing_data.startDate|date:'d m Y'}}">
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="startTime">Start Time</label>
+                        <input type="time" class="form-control" name="startTime" id="startTime" required
+                               value="{{listing_data.startTime}}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="endTime">End Time</label>
+                        <input type="time" class="form-control" name="endTime" id="endTime" required
+                               value="{{listing_data.endTime}}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">Recurring</legend>
+                            {% if listing_data.recurring == True %}
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="recTrue" name="recurring" class="custom-control-input"
+                                           value="True" checked>
+                                    <label class="custom-control-label" for="recTrue">Yes</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="recFalse" name="recurring" class="custom-control-input"
+                                           value="False">
+                                    <label class="custom-control-label" for="recFalse">No</label>
+                                </div>
+                            {% else %}
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="recTrue1" name="recurring" class="custom-control-input"
+                                           value="True">
+                                    <label class="custom-control-label" for="recTrue1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="recFalse1" name="recurring" class="custom-control-input"
+                                           value="False" checked>
+                                    <label class="custom-control-label" for="recFalse1">No</label>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">Multiple Days</legend>
+                            {% if listing_data.multipleDays == True %}
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="mulTrue" name="multipleDays" class="custom-control-input"
+                                           value="True" checked>
+                                    <label class="custom-control-label" for="mulTrue">Yes</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="mulFalse" name="multipleDays" class="custom-control-input"
+                                           value="False">
+                                    <label class="custom-control-label" for="mulFalse">No</label>
+                                </div>
+                            {% else %}
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="mulTrue1" name="multipleDays" class="custom-control-input"
+                                           value="True">
+                                    <label class="custom-control-label" for="mulTrue1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="mulFalse1" name="multipleDays" class="custom-control-input"
+                                           value="False" checked>
+                                    <label class="custom-control-label" for="mulFalse1">No</label>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row recurring-days">
+                    <div class="col-sm-2">Recurring Days</div>
+                    <div class="col-sm-10">
+                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="monday" id="monday">
+                            <label class="custom-control-label" for="monday">Monday</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="tuesday" id="tuesday">
+                            <label class="custom-control-label" for="tuesday">Tuesday</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="wednesday" id="wednesday">
+                            <label class="custom-control-label" for="wednesday">Wednesday</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="thursday" id="thursday">
+                            <label class="custom-control-label" for="thursday">Thursday</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="friday" id="friday">
+                            <label class="custom-control-label" for="friday">Friday</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="saturday" id="saturday">
+                            <label class="custom-control-label" for="saturday">Saturday</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="sunday" id="sunday">
+                            <label class="custom-control-label" for="sunday">Sunday</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="recurringEndDate">Recurring End-Date</label>
+                        <input type="date" class="form-control" name="startDate" id="recurringEndDate" required
+                               value="{{listing_data.startDate|date:'d m Y'}}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="images">Images</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="images" aria-describedby="fileHelp" multiple
+                               required accept="image/*" value="{{listing_data.imageLink}}" onchange="handleFiles(this.files)">
+                        <label class="custom-file-label" for="images">Select file...</label>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="mt-5 btn btn-primary btn-icon-split">
+                        <span class="text">Change Listing</span>
+                    </button>
+                </div>
+                {{listing_data}}
+            </form>
+        </div>
+    </div>
+    <script>
+        function displayRecurringDays(value) {
+            if ( value === "True" ){
+                $('.recurring-days').show();
+            }
+            else {
+                $('.recurring-days').hide();
+            }
+        }
+        function handleFiles(files){
+            console.log(files);
+            fileUrl = (window.URL ? URL : webkitURL).createObjectURL(files[0])
+            $('.custom-file').append('<img src=' + fileUrl + ' class="img-responsive img-thumbnail" ' +
+                'style="max-height: 50px; max-width: 50px; margin:10px">')
+        }
+        function setTime(value) {
+            var time = new Date(value);
+            var h = time.getHours();
+            var m = time.getMinutes();
+            var s = time.getSeconds();
+            console.log(value, '----')
+            if (h < 10) h = '0' + h;
+            if (m < 10) m = '0' + m;
+            if (s < 10) s = '0' + s;
+            return h+':'+m+':'+s;
+        }
+        $(document).ready(function(){
+            var recurring = $("input[type=radio][name='recurring']");
+            var recurringValue = $("input[type=radio][name='recurring']:checked").val();
+            displayRecurringDays(recurringValue);
+            recurring.change(function(){
+                displayRecurringDays(this.value);
+            });
+            var startTime = $('#startTime');
+            console.log($('#startTime').val())
+            debugger;
+            console.log($('#startTime').val())
+            c =  setTime(startTime.val());
+            console.log(c)
+        });
+    </script>
+{% endblock %}
