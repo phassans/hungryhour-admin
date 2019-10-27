@@ -57,7 +57,7 @@ class AddListingPageView(TemplateView):
             'https://www.itshungryhour.com/api/v1/business/all')
         data = response.json()
         # print(data)
-        context['data'] = data
+        context['business_list'] = data
         return context
 
 
@@ -130,6 +130,7 @@ def InsertListing(request):
             recurringEndDate=edt,
             startTime=request.POST.get('startTime'),
             endTime=request.POST.get('endTime'),
+            recurringDays=request.POST.getlist('recurringDays'),
         ))
     print(response.text)
     return redirect('listing')
