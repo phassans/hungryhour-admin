@@ -108,30 +108,26 @@ def InsertBusiness(request):
 
 
 def InsertListing(request):
-    sdt = request.POST.get('startDate')
-    sdt = datetime.datetime.strptime(sdt, "%Y-%m-%d").date()
-    sdt = sdt.strftime('%m/%d/%Y')
-    edt = request.POST.get('recurringEndDate')
-    edt = datetime.datetime.strptime(edt, "%Y-%m-%d").date()
-    edt = edt.strftime('%m/%d/%Y')
-    print(sdt)
-    print(request.POST.dict())
-
+    start_date = datetime.datetime.strptime(request.POST.get('startDate'), "%Y-%m-%d").date().strftime('%m/%d/%Y')
+    end_date = datetime.datetime.strptime(request.POST.get('recurringEndDate'), "%Y-%m-%d").date().strftime('%m/%d/%Y')
+    recurring = request.POST.get('recurring')
+    if recurring == 'true':
+        recurring = True
+    else:
+        recurring = False
+    print(request.POST)
+    print(request.FILES.getlist('images'))
     # # headers = {
     #     'Content-type': 'multipart/form-data;boundary=f0d7eb0b58c94f8ea3e665e28cffffdc'}
     response = requests.post(
-        'https://www.itshungryhour.com/api/v1/listing/add', files=dict(
-            images=request.FILES['images']), data=dict(
-                businessId=request.POST.get('businessId'),
-            title=request.POST.get('title'),
-            discountDescription=request.POST.get('discountDescription'),
-            description=request.POST.get('description'),
-            startDate=sdt,
-            recurringEndDate=edt,
-            startTime=request.POST.get('startTime'),
-            endTime=request.POST.get('endTime'),
-            recurringDays=request.POST.getlist('recurringDays'),
-        ))
+        'https://www.itshungryhour.com/api/v1/listing/add',
+        files=dict(images=request.FILES['images']),
+        data=dict(businessId=request.POST.get('businessId'), title=request.POST.get('title'),
+                  discountDescription=request.POST.get('discountDescription'),
+                  description=request.POST.get('description'), startDate=start_date,
+                  recurringEndDate=end_date, startTime=request.POST.get('startTime'),
+                  endTime=request.POST.get('endTime'), recurring=recurring,
+                  recurringDays=request.POST.getlist('recurringDays')))
     print(response.text)
     return redirect('listing')
 
@@ -203,23 +199,24 @@ class BusinessListingEditView(View):
         # import code;
         # code.interact(local=dict(globals(), **locals()))
         recurring = request.POST.get('recurring')
+        start_date = datetime.datetime.strptime(request.POST.get('startDate'), "%Y-%m-%d").date().strftime('%m/%d/%Y')
+        end_date = datetime.datetime.strptime(request.POST.get('recurringEndDate'), "%Y-%m-%d").date().strftime('%m/%d/%Y')
         if recurring == 'true':
             recurring = True
         else:
             recurring = False
         data = {'businessId': int(request.POST.get('businessId')), 'listingId': int(request.POST.get('listingId')),
                 'title': request.POST.get('title'), 'discountDescription': request.POST.get('discountDescription'),
-                'description': request.POST.get('description'), 'startDate': request.POST.get('startDate'),
-                'recurringEndDate': request.POST.get('recurringEndDate'), 'startTime': request.POST.get('startTime'),
+                'description': request.POST.get('description'), 'startDate': start_date,
+                'recurringEndDate': end_date, 'startTime': request.POST.get('startTime'),
                 'endTime': request.POST.get('endTime'), 'recurring': recurring}
         if request.POST.getlist('recurringDays'):
             data.update({'recurringDays': request.POST.getlist('recurringDays')})
         print(data)
         response = requests.post('https://www.itshungryhour.com/api/v1//listing/edit',
-                                 files={'file': request.FILES['images'].file.read()}, data=data)
+                                 files=dict(images=request.FILES['images']), data=data)
         print(response.content)
-        print(response.json())
-        return
+        return redirect('listing')
 
 
 class BusinessListingDeleteView(View):
