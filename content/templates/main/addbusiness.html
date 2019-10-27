@@ -9,43 +9,54 @@
     <div class="card-body">
         <form action="/business/insert" method="post">
             {% csrf_token %}
-            <div class="row">
-                <div class="col">
-                    <input type="text" class="form-control" name="name" required placeholder="Name">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" name="name" id="name" required placeholder="Name">
                 </div>
-                <div class="col">
-                    <input type="text" class="form-control" name="phone" required placeholder="Phone">
+                <div class="form-group col-md-4">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" class="form-control" name="phone" id="phone" required placeholder="Phone">
                 </div>
-                <div class="col">
-                    <input type="text" class="form-control" name="website" placeholder="Website">
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col">
-                    <input type="text" class="form-control" name="state" required placeholder="State">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" name="city" required placeholder="City">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" name="street" required placeholder="Street">
+                <div class="form-group col-md-4">
+                    <label for="website">Website</label>
+                    <input type="text" class="form-control" name="website" id="website" placeholder="Website">
                 </div>
             </div>
-            <div class="row mt-5">
-                <div class="col">
-                    <input type="text" class="form-control" name="postalCode" required placeholder="Postal code">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="street">Street</label>
+                    <input type="text" class="form-control" name="street" id="street" required placeholder="Street">
                 </div>
-                <div class="col">
-                    <select class="form-control" multiple name="cuisine" required>
-                        <option>Select multiple Cuisine</option>
-                        <option value="cuba">Cuba</option>
-                        <option value="mexican">Mexican</option>
+                <div class="form-group col-md-4">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" name="city" id="city" required placeholder="City">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" name="state" id="state" required placeholder="State">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="postalCode">Postal Code</label>
+                    <input type="text" class="form-control" name="postalCode" id="postalCode" required placeholder="Postal code">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Select Cuisine</label>
+                    <div>
+                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" name="cuisine" value="cuba" id="cuba">
+                            <label class="custom-control-label" for="cuba">Cuba</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" name="mexican" value="mexican" id="mexican">
+                            <label class="custom-control-label" for="mexican">Mexican</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                    </select>
-                    <!-- <input type="text" class="form-control" name="cuisine" required placeholder="Cuisine"> -->
-                </div>
-
-            </div>
             <div class="row mt-5">
                 <div class="col">
                     <label>day</label>
