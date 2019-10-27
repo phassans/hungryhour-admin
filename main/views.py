@@ -199,11 +199,24 @@ class BusinessListingEditView(View):
         print(id)
         print(request.FILES.getlist('images'))
         print(json.dumps(request.POST))
-        # import code;
-        # code.interact(local=dict(globals(), **locals()))
+        import code;
+        code.interact(local=dict(globals(), **locals()))
+        recurring = request.POST.get('recurring')
+        if recurring == 'true':
+            recurring = True
+        else:
+            recurring = False
+        data = {'businessId': int(request.POST.get('businessId')), 'listingId': int(request.POST.get('listingId')),
+                'title': request.POST.get('title'), 'discountDescription': request.POST.get('discountDescription'),
+                'description': request.POST.get('description'), 'startDate': request.POST.get('startDate'),
+                'recurringEndDate': request.POST.get('recurringEndDate'), 'startTime': request.POST.get('startTime'),
+                'endTime': request.POST.get('endTime'), 'recurring': recurring}
+        if request.POST.getlist('recurringDays'):
+            data.update({'recurringDays': request.POST.getlist('recurringDays')})
+        print(data)
         response = requests.post('https://www.itshungryhour.com/api/v1//listing/edit',
-                                 data=json.dumps(request.POST))
-        print(response)
+                                 files={'file': request.FILES['images'].file.read()}, data=data, headers={'Content-Type': 'multipart/form-data'})
+        print(response.content)
         print(response.json())
         return
 
