@@ -56,36 +56,6 @@
                         <input type="time" class="form-control" name="endTime" id="endTime" required step="any">
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <div class="row">
-                            <legend class="col-form-label col-sm-3 pt-0">Recurring</legend>
-                            {% if listing_data.recurring == True %}
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="recTrue" name="recurring" class="custom-control-input"
-                                           value="true" checked>
-                                    <label class="custom-control-label" for="recTrue">Yes</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="recFalse" name="recurring" class="custom-control-input"
-                                           value="false">
-                                    <label class="custom-control-label" for="recFalse">No</label>
-                                </div>
-                            {% else %}
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="recTrue1" name="recurring" class="custom-control-input"
-                                           value="true">
-                                    <label class="custom-control-label" for="recTrue1">Yes</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="recFalse1" name="recurring" class="custom-control-input"
-                                           value="false" checked>
-                                    <label class="custom-control-label" for="recFalse1">No</label>
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
                 <div class="form-group row recurring-days">
                     <div class="col-sm-2">Recurring Days</div>
                     <div class="col-sm-10">
@@ -124,7 +94,7 @@
                     <label for="images">Images</label>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" name="images" id="images"
-                               aria-describedby="fileHelp" multiple required accept="image/*"
+                               aria-describedby="fileHelp" multiple accept="image/*"
                                value="{{listing_data.imageLink}}" onchange="handleFiles(this.files)">
                         <label class="custom-file-label" for="images">Select file...</label>
                     </div>
@@ -135,19 +105,10 @@
                         <span class="text">Change Listing</span>
                     </button>
                 </div>
-                {{listing_data.listingImages}}
             </form>
         </div>
     </div>
     <script>
-        function displayRecurringDays(value) {
-            if ( value === "true" ){
-                $('.recurring-days').show();
-            }
-            else {
-                $('.recurring-days').hide();
-            }
-        }
         function handleFiles(files){
             console.log(files);
             fileUrl = (window.URL ? URL : webkitURL).createObjectURL(files[0])
@@ -177,12 +138,6 @@
             targetElement.val(h + ':' + m + ':' + s);
         }
         $(document).ready(function(){
-            var recurring = $("input[type=radio][name='recurring']");
-            var recurringValue = $("input[type=radio][name='recurring']:checked").val();
-            displayRecurringDays(recurringValue);
-            recurring.change(function(){
-                displayRecurringDays(this.value);
-            });
             var startDateObj = $('#startDateObj');
             var startDate = $('#startDate');
             var recurringEndDateObj = $('#recurringEndDateObj');
