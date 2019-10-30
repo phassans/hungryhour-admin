@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from urllib.request import urlopen
 from django.utils.dateformat import DateFormat
 import datetime
+from django.contrib import messages
 
 
 class IndexPageView(TemplateView):
@@ -104,6 +105,10 @@ def InsertBusiness(request):
     response = requests.post(
         'https://www.itshungryhour.com/api/v1//business/add', data=json.dumps(payload))
     print(response.text)
+    if response.status_code == 200:
+        messages.success(request, 'Business added successfully.')
+    else:
+        messages.error(request, response.text)
     return redirect('business')
 
 
@@ -124,6 +129,10 @@ def InsertListing(request):
                   endTime=request.POST.get('endTime'),
                   recurringDays=request.POST.getlist('recurringDays')))
     print(response.text)
+    if response.status_code == 200:
+        messages.success(request, 'Listing added successfully.')
+    else:
+        messages.error(request, response.text)
     return redirect('listing')
 
 
@@ -205,6 +214,10 @@ class BusinessListingEditView(View):
         response = requests.post('https://www.itshungryhour.com/api/v1//listing/edit',
                                  files=dict(images=request.FILES.get('images')), data=data)
         print(response.content)
+        if response.status_code == 200:
+            messages.success(request, 'Listing updated successfully.')
+        else:
+            messages.error(request, response.text)
         return redirect('listing')
 
 
