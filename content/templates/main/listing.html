@@ -52,6 +52,7 @@
     <script type="text/javascript">
         var token = '{{csrf_token}}';
         function deleteListing(element, listingId){
+            console.log(element);
             console.log(listingId);
             $.ajax ({
                 headers: { "X-CSRFToken": token },
@@ -62,6 +63,15 @@
                     table.row(element.closest('tr')).remove().draw();
                 }
             });
+        }
+        function modalData(element, listingId) {
+            debugger;
+            var currentRow = {'element': element};
+            modalHtml = '<button type="button" class="btn btn-secondary"' +
+                ' data-dismiss="modal">Close</button> <a onclick="deleteListing(' + currentRow + ',' + listingId +')"' +
+                ' class="del-final btn btn-danger"><i class="fas fa-trash"></i></a>';
+            $('.modal-footer').html(modalHtml);
+            $('#deleteModal').modal();
         }
         $(document).ready(function(){
 
@@ -91,8 +101,8 @@
                                     ' class="img-fluid img-thumbnail"></img></td>' +
                                     '<td> <a href="listing/edit/' + businessListing[i]["listingId"] +
                                     '" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-edit">' +
-                                    '</i></a> <a onclick="if (confirm(\'Are you sure ?\')) { deleteListing(this,' +
-                                    businessListing[i]["listingId"] + ') }"' +
+                                    '</i></a> <a onclick="modalData(this, ' +
+                                    businessListing[i]["listingId"] + ')"' +
                                     ' class="delete-business btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a></td></tr>'
                             }
                             tableData += '</tbody> </table>';

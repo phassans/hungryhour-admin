@@ -7,7 +7,7 @@
         </div>
 
         <div class="card-body">
-            <form action="/listing/insert" method="post" enctype="multipart/form-data">
+            <form action="/listing/insert" id="listingForm" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -49,11 +49,11 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="startTime">Start Time</label>
-                        <input type="time" class="form-control" name="startTime" id="startTime" required step="any">
+                        <input type="time" class="form-control" name="startTime" id="startTime" required step="1">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="endTime">End Time</label>
-                        <input type="time" class="form-control" name="endTime" id="endTime" required step="any">
+                        <input type="time" class="form-control" name="endTime" id="endTime" required step="1">
                     </div>
                 </div>
                 <div class="form-group row recurring-days">
@@ -112,13 +112,19 @@
     <script>
         function handleFiles(files){
             console.log(files);
-            fileUrl = (window.URL ? URL : webkitURL).createObjectURL(files[0])
+            fileUrl = (window.URL ? URL : webkitURL).createObjectURL(files[0]);
             $('.custom-file').append('<img src=' + fileUrl + ' class="img-responsive img-thumbnail" ' +
                 'style="max-height: 50px; max-width: 50px; margin:10px">')
         }
         $(document).ready(function() {
-            var recurringValue = $("input[type=radio][name='recurring']:checked").val();
-            displayRecurringDays(recurringValue);
+            $('#listingForm').submit(function() {
+                checked = $("input[type=checkbox][name='recurringDays']:checked").length;
+                if(!checked) {
+                    alert("You must check at least one checkbox.");
+                    return false;
+                }
+                return true;
+            });
         });
     </script>
 {% endblock %}
