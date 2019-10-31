@@ -329,13 +329,20 @@
         function getTimeFromString(timeStr) {
             let time = timeStr.substring(0, timeStr.length - 2);
             let interval = timeStr.substring(timeStr.length - 2);
+            let timeArray = time.split(":");
+            let timeHour = timeArray[0];
             if (interval === 'pm'){
-                time = String(parseInt(time)+12);
+                if (timeHour !== '12'){
+                    timeHour = String(parseInt(timeHour)+12);
+                }
             }
-            if (time.length<2){
-                time = '0' + time;
+            if (timeHour.length<2){
+                timeHour = '0' + timeHour;
             }
-            return time + ':00';
+            if (timeArray.length<2){
+                return timeHour + ':00';
+            }
+            return timeHour + ':' + timeArray[1];
         }
         function getHoursSlot(array) {
             let startTime = getTimeFromString(array[0]);
@@ -355,12 +362,10 @@
                 "Fri": "friday", "Sat": "saturday", "Sun": "sunday"};
             console.log(hoursArray);
             for (day=0; day<hoursArray.length; day++) {
-
-                let dayTimeArray = hoursArray[day].replace(/\s/g, '').split(":");
-                let timeSessionArray = dayTimeArray[1].split(',');
+                let timeSessionArray = hoursArray[day].replace(/\s/g, '').substring(4).split(',');
                 let firstSlotArray = getHoursSlot(timeSessionArray[0].split('-'));
                 console.log(firstSlotArray);
-                let dayName = dayObj[dayTimeArray[0]];
+                let dayName = dayObj[hoursArray[day].replace(/\s/g, '').substring(0,3)];
                 let sessionElement = $('#'+dayName).closest('div[class^="form-row"]').next();
                 sessionElement.find("input[name='open_time_session_one[]']").val(firstSlotArray[0]);
                 sessionElement.find("input[name='close_time_session_one[]']").val(firstSlotArray[1]);
