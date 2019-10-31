@@ -50,25 +50,23 @@
     </div>
 
     <script type="text/javascript">
-        var token = '{{csrf_token}}';
-        function deleteListing(element, listingId){
-            console.log(element);
+        token = '{{csrf_token}}';
+        function deleteListing(listingId){
             console.log(listingId);
             $.ajax ({
                 headers: { "X-CSRFToken": token },
                 type:"POST",
                 url: 'listing/delete/' + listingId,
                 success: function (data) {
-                    var table = $('#dataTable').DataTable();
-                    table.row(element.closest('tr')).remove().draw();
+                    let table = $('#dataTable').DataTable();
+                    table.row($('#delete-'+listingId).closest('tr')).remove().draw();
+                    $("#deleteModal .close").click();
                 }
             });
         }
-        function modalData(element, listingId) {
-            debugger;
-            var currentRow = {'element': element};
-            modalHtml = '<button type="button" class="btn btn-secondary"' +
-                ' data-dismiss="modal">Close</button> <a onclick="deleteListing(' + currentRow + ',' + listingId +')"' +
+        function modalData(listingId) {
+            let modalHtml = '<button type="button" class="btn btn-secondary"' +
+                ' data-dismiss="modal">Close</button> <a onclick="deleteListing(' + listingId +')"' +
                 ' class="del-final btn btn-danger"><i class="fas fa-trash"></i></a>';
             $('.modal-footer').html(modalHtml);
             $('#deleteModal').modal();
@@ -84,8 +82,8 @@
                         data: {'business_id': this.value},
                         success: function (data) {
                             console.log(data)
-                            businessListing = data.business_listing.Result
-                            tableData = '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">' +
+                            let businessListing = data.business_listing.Result
+                            let tableData = '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">' +
                                 '<thead> <tr> <th>Title</th> <th>Business Name</th> <th>Discount Description</th>' +
                                 '<th>Start Date</th> <th>Recurring End-Date</th> <th>Start Time</th> <th>End Time</th>' +
                                 '<th>Image</th> <th>Action</th> </tr> </thead> <tbody>';
@@ -101,23 +99,16 @@
                                     ' class="img-fluid img-thumbnail"></img></td>' +
                                     '<td> <a href="listing/edit/' + businessListing[i]["listingId"] +
                                     '" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-edit">' +
-                                    '</i></a> <a onclick="modalData(this, ' +
-                                    businessListing[i]["listingId"] + ')"' +
+                                    '</i></a> <a onclick="modalData(' + businessListing[i]["listingId"] +
+                                    ')" id="delete-' + businessListing[i]["listingId"] + '"' +
                                     ' class="delete-business btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a></td></tr>'
                             }
                             tableData += '</tbody> </table>';
                             $('.table-responsive').html(tableData);
-                            var table = $('#dataTable').dataTable({
-                                            "bPaginate": true,
-                                            "bJQueryUI": true,
-                                            "bLengthChange": true,
-                                            "bFilter": true,
-                                            "bSort": true,
-                                            "bInfo": true,
-                                            "bAutoWidth": true,
-                                            "bProcessing": true,
-                                            "iDisplayLength": 10,
-                                            });
+                            $('#dataTable').dataTable({
+                                "bPaginate": true, "bJQueryUI": true, "bLengthChange": true,
+                                "bFilter": true, "bSort": true, "bInfo": true, "bAutoWidth": true,
+                                "bProcessing": true, "iDisplayLength": 10,});
                         }
                         });
                 }

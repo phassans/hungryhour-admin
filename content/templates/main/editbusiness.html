@@ -8,575 +8,378 @@
             {% endfor %}
         </ul>
     {% endif %}
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Add Business</h6>
-        {{data}}
-    </div>
-    <div class="card-body">
-        <form action="/business/insert" method="post">
-            {% csrf_token %}
-            <input type="hidden" id="cuisineObj" value="{{ data.businessCuisine.cuisine }}">
-            <input type="hidden" id="businessHours" value="{{ data.businessHoursFormatted }}">
-            <input type="hidden" id="time-var" name="time" value="0">
-            <input type="hidden" id="businessid" name="businessid" value="{{data.business.businessId}}">
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" required placeholder="Name"
-                               value="{{ data.business.name }}">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="phone">Phone Number</label>
-                        <input type="text" class="form-control" name="phone" id="phone" required placeholder="Phone"
-                               value="{{ data.business.phone }}">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="website">Website</label>
-                        <input type="text" class="form-control" name="website" id="website" placeholder="Website"
-                               value="{{ data.business.website }}">
-                    </div>
-                </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Change Business</h6>
+        </div>
+        <div class="card-body">
+            <form action="/business/insert" method="post">
+                {% csrf_token %}
+                <input type="hidden" id="cuisineObj" value="{{ data.businessCuisine.cuisine }}">
+                <input type="hidden" id="businessHours" value="{{ data.businessHoursFormatted }}">
+                <input type="hidden" id="time-var" name="time" value="0">
+                <input type="hidden" id="businessid" name="businessid" value="{{data.business.businessId}}">
                 <div class="form-row">
                     <div class="form-group col-md-4">
-                        <label for="street">Street</label>
-                        <input type="text" class="form-control" name="street" id="street" required placeholder="Street"
-                               value="{{ data.businessAddress.street }}">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" name="name" id="name" required placeholder="Name"
+                                   value="{{ data.business.name }}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="phone">Phone Number</label>
+                            <input type="text" class="form-control" name="phone" id="phone" required placeholder="Phone"
+                                   value="{{ data.business.phone }}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="website">Website</label>
+                            <input type="text" class="form-control" name="website" id="website" placeholder="Website"
+                                   value="{{ data.business.website }}">
+                        </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="city">City</label>
-                        <input type="text" class="form-control" name="city" id="city" required placeholder="City"
-                               value="{{ data.businessAddress.city }}">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="street">Street</label>
+                            <input type="text" class="form-control" name="street" id="street" required placeholder="Street"
+                                   value="{{ data.businessAddress.street }}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" name="city" id="city" required placeholder="City"
+                                   value="{{ data.businessAddress.city }}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="state">State</label>
+                            <input type="text" class="form-control" name="state" id="state" required placeholder="State"
+                                   value="{{ data.businessAddress.state }}">
+                        </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="state">State</label>
-                        <input type="text" class="form-control" name="state" id="state" required placeholder="State"
-                               value="{{ data.businessAddress.state }}">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="postalCode">Postal Code</label>
-                        <input type="text" class="form-control" name="postalCode" id="postalCode" required
-                               placeholder="Postal code" value="{{ data.businessAddress.postalCode }}">
-                    </div>
-                    <div class="form-group col-md-8">
-                        <label>Select Cuisine</label>
-                        <div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="american" id="american">
-                                <label class="custom-control-label" for="american">American</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="asian" id="asian">
-                                <label class="custom-control-label" for="asian">Asian</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="burgers" id="burgers">
-                                <label class="custom-control-label" for="burgers">Burgers</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="chinese" id="chinese">
-                                <label class="custom-control-label" for="chinese">Chinese</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="coffee-tea" id="coffeeTea">
-                                <label class="custom-control-label" for="coffeeTea">Coffee/Tea</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="dessert" id="dessert">
-                                <label class="custom-control-label" for="dessert">Dessert</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="drinks" id="drinks">
-                                <label class="custom-control-label" for="drinks">Drinks</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="japanese" id="japanese">
-                                <label class="custom-control-label" for="japanese">Japanese</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="indian" id="indian">
-                                <label class="custom-control-label" for="indian">Indian</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="mediterranean" id="mediterranean">
-                                <label class="custom-control-label" for="mediterranean">Mediterranean</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="mexican" value="mexican" id="mexican">
-                                <label class="custom-control-label" for="mexican">Mexican</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="pizza" id="pizza">
-                                <label class="custom-control-label" for="pizza">Pizza</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="sandwiches" id="sandwiches">
-                                <label class="custom-control-label" for="sandwiches">Sandwiches</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="sushi" id="sushi">
-                                <label class="custom-control-label" for="sushi">Sushi</label>
-                            </div>
-                            <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" name="cuisine" value="thai" id="thai">
-                                <label class="custom-control-label" for="thai">Thai</label>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="postalCode">Postal Code</label>
+                            <input type="text" class="form-control" name="postalCode" id="postalCode" required
+                                   placeholder="Postal code" value="{{ data.businessAddress.postalCode }}">
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label>Select Cuisine</label>
+                            <div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="american" id="american">
+                                    <label class="custom-control-label" for="american">American</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="asian" id="asian">
+                                    <label class="custom-control-label" for="asian">Asian</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="burgers" id="burgers">
+                                    <label class="custom-control-label" for="burgers">Burgers</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="chinese" id="chinese">
+                                    <label class="custom-control-label" for="chinese">Chinese</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="coffee-tea" id="coffeeTea">
+                                    <label class="custom-control-label" for="coffeeTea">Coffee/Tea</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="dessert" id="dessert">
+                                    <label class="custom-control-label" for="dessert">Dessert</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="drinks" id="drinks">
+                                    <label class="custom-control-label" for="drinks">Drinks</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="japanese" id="japanese">
+                                    <label class="custom-control-label" for="japanese">Japanese</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="indian" id="indian">
+                                    <label class="custom-control-label" for="indian">Indian</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="mediterranean" id="mediterranean">
+                                    <label class="custom-control-label" for="mediterranean">Mediterranean</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="mexican" value="mexican" id="mexican">
+                                    <label class="custom-control-label" for="mexican">Mexican</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="pizza" id="pizza">
+                                    <label class="custom-control-label" for="pizza">Pizza</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="sandwiches" id="sandwiches">
+                                    <label class="custom-control-label" for="sandwiches">Sandwiches</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="sushi" id="sushi">
+                                    <label class="custom-control-label" for="sushi">Sushi</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="thai" id="thai">
+                                    <label class="custom-control-label" for="thai">Thai</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="italian" id="italian">
+                                    <label class="custom-control-label" for="italian">Italian</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="korean" id="korean">
+                                    <label class="custom-control-label" for="korean">Korean</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="vietnamese" id="vietnamese">
+                                    <label class="custom-control-label" for="vietnamese">Vietnamese</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="seafood" id="seafood">
+                                    <label class="custom-control-label" for="seafood">Seafood</label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="monday">Day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" id="monday"
-                               value="monday" required>
-                    </div>
-                </div>
                 <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <label>Session-one Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-one Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="tuesday">Day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" id="tuesday"
-                               value="tuesday" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <label>Session-one Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-one Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="wednesday">Day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" id="wednesday"
-                               value="wednesday" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <label>Session-one Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-one Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="thursday">Day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" id="thursday"
-                               value="thursday" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <label>Session-one Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-one Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="friday">Day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" id="friday"
-                               value="friday" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <label>Session-one Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-one Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="saturday">Day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" id="saturday"
-                               value="saturday" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <label>Session-one Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-one Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="sunday">Day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" id="sunday"
-                               value="sunday" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <label>Session-one Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-one Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Open-Time</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Session-two Close-Time</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]">
-                    </div>
-                </div>
-            {% for t in data.businessHoursFormatted %}
-            {{ t }}<br>
-            {% endfor %}
-            <button class="edit-time btn btn-secondarendTimey mt-3 btn-icon-split btn-sm"> <span class="icon text-white-50">
-                    <i class="fas fa-edit"></i>
-                </span>
-                <span class="text">edit time</span></button>
-            <div class="hidden time-form">
-{#                <div class="row mt-5">#}
-{#                    <div class="col">#}
-{#                        <label>day</label>#}
-{#                        <input type="text" class="form-endTimecontrol" name="day[]" readonly="readonly" value="monday" required#}
-{#                            placeholder="Day">#}
-{#                    </div>#}
-{#                    <div class="col">#}
-{#                        <label>open time session one</label>#}
-{#                        <input type="time" class="form-control" name="open_time_session_one[]"#}
-{#                            placeholder="Open time session one">#}
-{#                    </div>#}
-{#                    <div class="col">#}
-{#                        <label>close time session one</label>#}
-{#                        <input type="time" class="form-control" name="close_time_session_one[]"#}
-{#                            placeholder="Close time session one">#}
-{##}
-{#                    </div>#}
-{##}
-{#                </div>#}
-{#                <div class="row mt-5">#}
-{#                    <div class="col">#}
-{#                    </div>#}
-{#                    <div class="col">#}
-{#                        <label>open time session two</label>#}
-{#                        <input type="time" class="form-control" name="open_time_session_two[]"#}
-{#                            placeholder="Open time session one">#}
-{##}
-{#                    </div>#}
-{#                    <div class="col">#}
-{#                        <label>close time session two</label>#}
-{#                        <input type="time" class="form-control" name="close_time_session_two[]"#}
-{#                            placeholder="Close time session two">#}
-{#                    </div>#}
-{#                </div>#}
-                <div class="row mt-5">
-                    <div class="col">
-                        <label>day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="tuesday"
-                            required placeholder="Day">
-                    </div>
-                    <div class="col">
-                        <label>open time session one</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]"
-                            placeholder="Open time session one">
-                    </div>
-                    <div class="col">
-                        <label>close time session one</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]"
-                            placeholder="Close time session one">
-
-                    </div>
-
-                </div>
-                <div class="row mt-5">
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                        <label>open time session two</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]"
-                            placeholder="Open time session one">
-
-                    </div>
-                    <div class="col">
-                        <label>close time session two</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]"
-                            placeholder="Close time session two">
-                    </div>
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col">
-                        <label>day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="wednesday"
-                            required placeholder="Day">
-                    </div>
-                    <div class="col">
-                        <label>open time session one</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]"
-                            placeholder="Open time session one">
-                    </div>
-                    <div class="col">
-                        <label>close time session one</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]"
-                            placeholder="Close time session one">
-
-                    </div>
-
-                </div>
-                <div class="row mt-5">
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                        <label>open time session two</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]"
-                            placeholder="Open time session one">
-
-                    </div>
-                    <div class="col">
-                        <label>close time session two</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]"
-                            placeholder="Close time session two">
-                    </div>
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col">
-                        <label>day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="thursday"
-                            required placeholder="Day">
-                    </div>
-                    <div class="col">
-                        <label>open time session one</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]"
-                            placeholder="Open time session one">
-                    </div>
-                    <div class="col">
-                        <label>close time session one</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]"
-                            placeholder="Close time session one">
-
-                    </div>
-
-                </div>
-                <div class="row mt-5">
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                        <label>open time session two</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]"
-                            placeholder="Open time session one">
-
-                    </div>
-                    <div class="col">
-                        <label>close time session two</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]"
-                            placeholder="Close time session two">
-                    </div>
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col">
-                        <label>day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="friday" required
-                            placeholder="Day">
-                    </div>
-                    <div class="col">
-                        <label>open time session one</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]"
-                            placeholder="Open time session one">
-                    </div>
-                    <div class="col">
-                        <label>close time session one</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]"
-                            placeholder="Close time session one">
-
-                    </div>
-
-                </div>
-                <div class="row mt-5">
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                        <label>open time session two</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]"
-                            placeholder="Open time session one">
-
-                    </div>
-                    <div class="col">
-                        <label>close time session two</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]"
-                            placeholder="Close time session two">
-                    </div>
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col">
-                        <label>day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="saturday"
-                            required placeholder="Day">
-                    </div>
-                    <div class="col">
-                        <label>open time session one</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]"
-                            placeholder="Open time session one">
-                    </div>
-                    <div class="col">
-                        <label>close time session one</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]"
-                            placeholder="Close time session one">
-
-                    </div>
-
-                </div>
-                <div class="row mt-5">
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                        <label>open time session two</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]"
-                            placeholder="Open time session one">
-
-                    </div>
-                    <div class="col">
-                        <label>close time session two</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]"
-                            placeholder="Close time session two">
-                    </div>
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col">
-                        <label>day</label>
-                        <input type="text" class="form-control" name="day[]" readonly="readonly" value="sunday" required
-                            placeholder="Day">
-                    </div>
-                    <div class="col">
-                        <label>open time session one</label>
-                        <input type="time" class="form-control" name="open_time_session_one[]"
-                            placeholder="Open time session one">
-                    </div>
-                    <div class="col">
-                        <label>close time session one</label>
-                        <input type="time" class="form-control" name="close_time_session_one[]"
-                            placeholder="Close time session one">
-
-                    </div>
-
-                </div>
-                <div class="row mt-5">
-                    <div class="col">
-                    </div>
-                    <div class="col">
-                        <label>open time session two</label>
-                        <input type="time" class="form-control" name="open_time_session_two[]"
-                            placeholder="Open time session one">
-
-                    </div>
-                    <div class="col">
-                        <label>close time session two</label>
-                        <input type="time" class="form-control" name="close_time_session_two[]"
-                            placeholder="Close time session two">
-                    </div>
-                </div>
-            </div>
-            <div class="text-center">
-                <button type="submit" class="mt-5 btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-flag"></i>
-                    </span>
-                    <span class="text">Edit Business</span>
-                </button>
-            </div>
-        </form>
+                        <div class="form-group col-md-4">
+                            <label for="monday">Day</label>
+                            <input type="text" class="form-control" name="day[]" readonly="readonly" id="monday"
+                                   value="monday" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label>Session-one Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-one Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_two[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_two[]">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="tuesday">Day</label>
+                            <input type="text" class="form-control" name="day[]" readonly="readonly" id="tuesday"
+                                   value="tuesday" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label>Session-one Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-one Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_two[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_two[]">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="wednesday">Day</label>
+                            <input type="text" class="form-control" name="day[]" readonly="readonly" id="wednesday"
+                                   value="wednesday" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label>Session-one Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-one Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_two[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_two[]">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="thursday">Day</label>
+                            <input type="text" class="form-control" name="day[]" readonly="readonly" id="thursday"
+                                   value="thursday" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label>Session-one Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-one Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_two[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_two[]">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="friday">Day</label>
+                            <input type="text" class="form-control" name="day[]" readonly="readonly" id="friday"
+                                   value="friday" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label>Session-one Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-one Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_two[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_two[]">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="saturday">Day</label>
+                            <input type="text" class="form-control" name="day[]" readonly="readonly" id="saturday"
+                                   value="saturday" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label>Session-one Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-one Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_two[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_two[]">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="sunday">Day</label>
+                            <input type="text" class="form-control" name="day[]" readonly="readonly" id="sunday"
+                                   value="sunday" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label>Session-one Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-one Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_one[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Open-Time</label>
+                            <input type="time" class="form-control" name="open_time_session_two[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Session-two Close-Time</label>
+                            <input type="time" class="form-control" name="close_time_session_two[]">
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="mt-5 btn btn-primary btn-icon-split">
+                            <span class="text">Change Business</span>
+                        </button>
+                    </div>
+            </form>
+        </div>
     </div>
-</div>
     <script>
+        function getTimeFromString(timeStr) {
+            let time = timeStr.substring(0, timeStr.length - 2);
+            let interval = timeStr.substring(timeStr.length - 2);
+            if (interval === 'pm'){
+                time = String(parseInt(time)+12);
+            }
+            if (time.length<2){
+                time = '0' + time;
+            }
+            return time + ':00';
+        }
+        function getHoursSlot(array) {
+            let startTime = getTimeFromString(array[0]);
+            let endTime = getTimeFromString(array[1]);
+            return [startTime, endTime];
+        }
         function setHours(){
-            let huorsArray = JSON.parse($('#businessHours').val().replace(/'/g, '"'));
-            day = {"Mon": "", "Tue": "", "Wed": "", "Thu": "", "Fri": "", "Sat": "", "Sun": ""};
+            let hoursArray = JSON.parse($('#businessHours').val().replace(/'/g, '"'));
+            let elementToRemove = []
+            hoursArray.forEach(function(value, index, array){
+                if (value.indexOf("Closed") != -1){
+                    elementToRemove.push(value);
+                }
+            });
+            hoursArray = hoursArray.filter( ( element ) => !elementToRemove.includes( element ) );
+            let dayObj = {"Mon": "monday", "Tue": "tuesday", "Wed": "wednesday", "Thu": "thursday",
+                "Fri": "friday", "Sat": "saturday", "Sun": "sunday"};
+            console.log(hoursArray);
+            for (day=0; day<hoursArray.length; day++) {
+
+                let dayTimeArray = hoursArray[day].replace(/\s/g, '').split(":");
+                let timeSessionArray = dayTimeArray[1].split(',');
+                let firstSlotArray = getHoursSlot(timeSessionArray[0].split('-'));
+                console.log(firstSlotArray);
+                let dayName = dayObj[dayTimeArray[0]];
+                let sessionElement = $('#'+dayName).closest('div[class^="form-row"]').next();
+                sessionElement.find("input[name='open_time_session_one[]']").val(firstSlotArray[0]);
+                sessionElement.find("input[name='close_time_session_one[]']").val(firstSlotArray[1]);
+                if (timeSessionArray.length>1){
+                    let secondSlotArray = getHoursSlot(timeSessionArray[1].split('-'));
+                    console.log(secondSlotArray);
+                    sessionElement.find("input[name='open_time_session_two[]']").val(secondSlotArray[0]);
+                    sessionElement.find("input[name='close_time_session_two[]']").val(secondSlotArray[1]);
+                }
+            }
         }
         $(document).ready(function(){
-           var cuisineObj = $('#cuisineObj').val().replace(/'/g, '"');
+            let cuisineObj = $('#cuisineObj').val().replace(/'/g, '"');
             if (cuisineObj) {
-                var cuisineArray = JSON.parse(cuisineObj);
+                let cuisineArray = JSON.parse(cuisineObj);
                 for (i=0; i<cuisineArray.length; i++) {
                     $("#" + cuisineArray[i]).prop('checked', true);
                 }
             }
+            setHours();
         });
     </script>
 
