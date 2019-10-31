@@ -13,12 +13,13 @@
             <h6 class="m-0 font-weight-bold text-primary">Change Business</h6>
         </div>
         <div class="card-body">
-            <form action="/business/insert" method="post">
+            <form action="" method="post">
                 {% csrf_token %}
                 <input type="hidden" id="cuisineObj" value="{{ data.businessCuisine.cuisine }}">
                 <input type="hidden" id="businessHours" value="{{ data.businessHoursFormatted }}">
                 <input type="hidden" id="time-var" name="time" value="0">
-                <input type="hidden" id="businessid" name="businessid" value="{{data.business.businessId}}">
+                <input type="hidden" id="businessId" name="businessId" value="{{data.business.businessId}}">
+                <input type="hidden" id="addressId" name="addressId" value="{{data.businessAddress.addressID}}">
                 <div class="form-row">
                     <div class="form-group col-md-4">
                             <label for="name">Name</label>
@@ -79,7 +80,7 @@
                                     <label class="custom-control-label" for="chinese">Chinese</label>
                                 </div>
                                 <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="coffee-tea" id="coffeeTea">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="coffeeTea" id="coffeeTea">
                                     <label class="custom-control-label" for="coffeeTea">Coffee/Tea</label>
                                 </div>
                                 <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
@@ -103,7 +104,7 @@
                                     <label class="custom-control-label" for="mediterranean">Mediterranean</label>
                                 </div>
                                 <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input" name="mexican" value="mexican" id="mexican">
+                                    <input type="checkbox" class="custom-control-input" name="cuisine" value="mexican" id="mexican">
                                     <label class="custom-control-label" for="mexican">Mexican</label>
                                 </div>
                                 <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">

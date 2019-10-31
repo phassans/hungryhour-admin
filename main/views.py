@@ -43,6 +43,19 @@ class ListingPageView(TemplateView):
         return context
 
 
+class BusinessListingPageView(View):
+
+    def get(self, request, id):
+        print(id)
+        response = requests.post('https://www.itshungryhour.com/api/v1//listing/all',
+                                 data=json.dumps({"businessId": id}))
+        print(response.text)
+        business_listing = response.json()
+        context = {'business_listing': business_listing}
+        print(context)
+        return render(request, 'main/business_listing.html', context)
+
+
 class AddBusinessPageView(TemplateView):
     template_name = 'main/addbusiness.html'
 
@@ -140,46 +153,75 @@ class ChangeLanguageView(TemplateView):
     template_name = 'main/change_language.html'
 
 
-class EditBusinessPageView(TemplateView):
-    template_name = 'main/editbusiness.html'
+class BusinessEditView(View):
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(EditBusinessPageView, self).get_context_data(
-            *args, **kwargs)
-        context['message'] = 'Hello World!'
-        bid = self.kwargs['id']
+    def get(self, request, id):
         response = requests.get(
-            'https://www.itshungryhour.com/api/v1/business?businessId='+bid)
-        data = response.json()
-        # print(data)
-        context['data'] = data
-        return context
+            'https://www.itshungryhour.com/api/v1/business?businessId=' + str(id))
+        business_list = response.json()
+        context = {'data': business_list}
+        return render(request, 'main/editbusiness.html', context)
+
+    def post(self, request, id):
+        day = request.POST.getlist('day[]')
+        open_time_session_one = request.POST.getlist('open_time_session_one[]')
+        open_time_session_two = request.POST.getlist('open_time_session_two[]')
+        close_time_session_one = request.POST.getlist('close_time_session_one[]')
+        close_time_session_two = request.POST.getlist('close_time_session_two[]')
+        hours = []
+        for x in range(7):
+            if open_time_session_one[x] != '':
+                hours.append({'day': day[x],
+                              'open_time_session_one': open_time_session_one[x],
+                              'close_time_session_one': close_time_session_one[x],
+                              'open_time_session_two': open_time_session_two[x],
+                              'close_time_session_two': close_time_session_two[x]})
+        print(hours)
+        data = {'userId': 1, 'name': request.POST.get('name'), 'phone': request.POST.get('phone'),
+                'website': request.POST.get('website'), 'city': request.POST.get('city'),
+                'state': request.POST.get('state'), 'street': request.POST.get('street'),
+                'postalCode': request.POST.get('postalCode'), 'businessId': id,
+                'addressId': int(request.POST.get('addressId')),
+                'cuisine': request.POST.getlist('cuisine'), 'hours': hours}
+        print(data)
+        response = requests.post(
+            'https://www.itshungryhour.com/api/v1//business/edit', data=json.dumps(data))
+        print(response.text)
+        if response.status_code == 200:
+            messages.success(request, 'Business updated successfully.')
+        else:
+            messages.error(request, response.text)
+        return redirect('business')
 
 
-class DeleteBusinessPageView(TemplateView):
-    template_name = 'main/business.html'
+class BusinessDeleteView(View):
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(EditBusinessPageView, self).get_context_data(
-            *args, **kwargs)
-        context['message'] = 'Hello World!'
-        bid = self.kwargs['id']
-        response = requests.get(
-            'https://www.itshungryhour.com/api/v1/business?businessId='+bid)
-        data = response.json()
-        # print(data)
-        context['data'] = data
-        return context
+    def post(self, request, id):
+        print(id)
+        # response = requests.post('https://www.itshungryhour.com/api/v1//listing/delete',
+        #                          data=json.dumps({"listingId": id}))
+        # print(response.json())
+        return JsonResponse({})
+
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super(EditBusinessPageView, self).get_context_data(
+    #         *args, **kwargs)
+    #     context['message'] = 'Hello World!'
+    #     bid = self.kwargs['id']
+    #     response = requests.get(
+    #         'https://www.itshungryhour.com/api/v1/business?businessId='+bid)
+    #     data = response.json()
+    #     # print(data)
+    #     context['data'] = data
+    #     return context
 
 
-class BusinessListingView(View):
+class BusinessListingAjaxView(View):
 
     def get(self, request):
         print(request.GET)
         response = requests.post('https://www.itshungryhour.com/api/v1//listing/all',
                                  data=json.dumps({"businessId": int(request.GET.get('business_id'))}))
-        # import code;
-        # code.interact(local=dict(globals(), **locals()))
         print(response.status_code==200)
         business_listing = response.json()
         context = {'business_listing': business_listing}
@@ -200,8 +242,6 @@ class BusinessListingEditView(View):
         print(id)
         print(request.FILES.getlist('images'))
         print(json.dumps(request.POST))
-        # import code;
-        # code.interact(local=dict(globals(), **locals()))
         start_date = datetime.datetime.strptime(request.POST.get('startDate'), "%Y-%m-%d").date().strftime('%m/%d/%Y')
         end_date = datetime.datetime.strptime(request.POST.get('recurringEndDate'), "%Y-%m-%d").date().strftime('%m/%d/%Y')
         data = {'businessId': int(request.POST.get('businessId')), 'listingId': int(request.POST.get('listingId')),

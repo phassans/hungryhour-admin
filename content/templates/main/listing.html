@@ -6,9 +6,6 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Business</h6>
             <a href="listing/add" class="mt-2 btn btn-primary btn-icon-split btn-sm">
-                <span class="icon text-white-50">
-                    <i class="fas fa-flag"></i>
-                </span>
                 <span class="text">Add New Listing</span>
             </a>
         </div>
@@ -66,8 +63,8 @@
         }
         function modalData(listingId) {
             let modalHtml = '<button type="button" class="btn btn-secondary"' +
-                ' data-dismiss="modal">Close</button> <a onclick="deleteListing(' + listingId +')"' +
-                ' class="del-final btn btn-danger"><i class="fas fa-trash"></i></a>';
+                ' data-dismiss="modal">Close</button> <button onclick="deleteListing(' + listingId +')"' +
+                ' class="del-final btn btn-danger"><i class="fas fa-trash"></i></button>';
             $('.modal-footer').html(modalHtml);
             $('#deleteModal').modal();
         }
@@ -81,36 +78,43 @@
                         url: 'listing/all',
                         data: {'business_id': this.value},
                         success: function (data) {
-                            console.log(data)
-                            let businessListing = data.business_listing.Result
-                            let tableData = '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">' +
-                                '<thead> <tr> <th>Title</th> <th>Business Name</th> <th>Discount Description</th>' +
-                                '<th>Start Date</th> <th>Recurring End-Date</th> <th>Start Time</th> <th>End Time</th>' +
-                                '<th>Image</th> <th>Action</th> </tr> </thead> <tbody>';
-                            for (i=0; i<businessListing.length; i++) {
-                                tableData += '<tr> <td>' + businessListing[i]["title"] + '</td>' +
-                                    '<td>' + businessListing[i]["businessName"] + '</td>' +
-                                    '<td>' + businessListing[i]["discountDescription"] + '</td>' +
-                                    '<td>' + businessListing[i]["startDate"] + '</td>' +
-                                    '<td>' + businessListing[i]["recurringEndDate"] + '</td>' +
-                                    '<td>' + businessListing[i]["startTime"] + '</td>' +
-                                    '<td>' + businessListing[i]["endTime"] + '</td>' +
-                                    '<td><img src=' + businessListing[i]["imageLink"] +
-                                    ' class="img-fluid img-thumbnail"></img></td>' +
-                                    '<td> <a href="listing/edit/' + businessListing[i]["listingId"] +
-                                    '" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-edit">' +
-                                    '</i></a> <a onclick="modalData(' + businessListing[i]["listingId"] +
-                                    ')" id="delete-' + businessListing[i]["listingId"] + '"' +
-                                    ' class="delete-business btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a></td></tr>'
+                            console.log(data);
+                            let businessListing = data.business_listing.Result;
+                            if (businessListing) {
+                                let tableData = '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">' +
+                                    '<thead> <tr> <th>Title</th> <th>Business Name</th> <th>Discount Description</th>' +
+                                    '<th>Start Date</th> <th>Recurring End-Date</th> <th>Start Time</th> <th>End Time</th>' +
+                                    '<th>Image</th> <th>Action</th> </tr> </thead> <tbody>';
+                                for (i = 0; i < businessListing.length; i++) {
+                                    tableData += '<tr> <td>' + businessListing[i]["title"] + '</td>' +
+                                        '<td>' + businessListing[i]["businessName"] + '</td>' +
+                                        '<td>' + businessListing[i]["discountDescription"] + '</td>' +
+                                        '<td>' + businessListing[i]["startDate"] + '</td>' +
+                                        '<td>' + businessListing[i]["recurringEndDate"] + '</td>' +
+                                        '<td>' + businessListing[i]["startTime"] + '</td>' +
+                                        '<td>' + businessListing[i]["endTime"] + '</td>' +
+                                        '<td><img src=' + businessListing[i]["imageLink"] +
+                                        ' class="img-fluid img-thumbnail"></img></td>' +
+                                        '<td> <a href="listing/edit/' + businessListing[i]["listingId"] +
+                                        '" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-edit">' +
+                                        '</i></a> <button onclick="modalData(' + businessListing[i]["listingId"] +
+                                        ')" id="delete-' + businessListing[i]["listingId"] + '"' +
+                                        ' class="delete-business btn btn-danger btn-circle btn-sm">' +
+                                        '<i class="fas fa-trash"></i></button></td></tr>'
+                                }
+                                tableData += '</tbody> </table>';
+                                $('.table-responsive').html(tableData);
+                                $('#dataTable').dataTable({
+                                    "bPaginate": true, "bJQueryUI": true, "bLengthChange": true,
+                                    "bFilter": true, "bSort": true, "bInfo": true, "bAutoWidth": true,
+                                    "bProcessing": true, "iDisplayLength": 10,
+                                });
                             }
-                            tableData += '</tbody> </table>';
-                            $('.table-responsive').html(tableData);
-                            $('#dataTable').dataTable({
-                                "bPaginate": true, "bJQueryUI": true, "bLengthChange": true,
-                                "bFilter": true, "bSort": true, "bInfo": true, "bAutoWidth": true,
-                                "bProcessing": true, "iDisplayLength": 10,});
+                            else {
+                                $('.table-responsive').html('<p align="center">No listing is added.</p>');
+                            }
                         }
-                        });
+                    });
                 }
             });
         });
