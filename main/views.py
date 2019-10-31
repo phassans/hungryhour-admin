@@ -198,9 +198,8 @@ class BusinessDeleteView(View):
 
     def post(self, request, id):
         print(id)
-        # response = requests.post('https://www.itshungryhour.com/api/v1//listing/delete',
-        #                          data=json.dumps({"listingId": id}))
-        # print(response.json())
+        response = requests.post('https://www.itshungryhour.com/api/v1//business/delete',
+                                 data=json.dumps({"businessId": id}))
         return JsonResponse({})
 
 
