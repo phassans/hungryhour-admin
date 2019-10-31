@@ -63,7 +63,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="#" class="del-final btn btn-danger">
+                    <a class="del-final btn btn-danger">
                         <i class="fas fa-trash"></i>
                     </a>
                 </div>
@@ -78,7 +78,7 @@
             $.ajax ({
                 headers: { "X-CSRFToken": token },
                 type:"POST",
-                url: 'listing/delete/' + listingId,
+                url: '/listing/delete/' + listingId,
                 success: function (data) {
                     let table = $('#dataTable').DataTable();
                     table.row($('#delete-'+listingId).closest('tr')).remove().draw();

@@ -203,18 +203,6 @@ class BusinessDeleteView(View):
         # print(response.json())
         return JsonResponse({})
 
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super(EditBusinessPageView, self).get_context_data(
-    #         *args, **kwargs)
-    #     context['message'] = 'Hello World!'
-    #     bid = self.kwargs['id']
-    #     response = requests.get(
-    #         'https://www.itshungryhour.com/api/v1/business?businessId='+bid)
-    #     data = response.json()
-    #     # print(data)
-    #     context['data'] = data
-    #     return context
-
 
 class BusinessListingAjaxView(View):
 
