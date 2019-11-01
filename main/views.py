@@ -200,7 +200,11 @@ class BusinessDeleteView(View):
         print(id)
         response = requests.post('https://www.itshungryhour.com/api/v1//business/delete',
                                  data=json.dumps({"businessId": id}))
-        return JsonResponse({})
+        if response.status_code == 200:
+            data = {'deleted': True}
+        else:
+            data = {'deleted': False, 'message': response.text}
+        return JsonResponse(data)
 
 
 class BusinessListingAjaxView(View):
@@ -254,5 +258,8 @@ class BusinessListingDeleteView(View):
         print(id)
         response = requests.post('https://www.itshungryhour.com/api/v1//listing/delete',
                                  data=json.dumps({"listingId": id}))
-        print(response.json())
-        return JsonResponse({})
+        if response.status_code == 200:
+            data = {'deleted': True}
+        else:
+            data = {'deleted': False, 'message': response.text}
+        return JsonResponse(data)

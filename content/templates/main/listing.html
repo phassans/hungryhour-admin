@@ -1,11 +1,17 @@
 {% extends 'layouts/default/master_layout.html' %}
 {% load i18n %}
 {% block content %}
-
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Business</h6>
-            <a href="listing/add" class="mt-2 btn btn-primary btn-icon-split btn-sm">
+            <h6 class="m-0 font-weight-bold text-primary">Business Listing</h6>
+            <a href="listing/add" class="mt-2 btn btn-primary btn-icon-split btn-sm float-right">
                 <span class="text">Add New Listing</span>
             </a>
         </div>
@@ -55,9 +61,17 @@
                 type:"POST",
                 url: 'listing/delete/' + listingId,
                 success: function (data) {
-                    let table = $('#dataTable').DataTable();
-                    table.row($('#delete-'+listingId).closest('tr')).remove().draw();
-                    $("#deleteModal .close").click();
+                    if (data.deleted){
+                        let table = $('#dataTable').DataTable();
+                        table.row($('#delete-'+listingId).closest('tr')).remove().draw();
+                        $("#deleteModal .close").click();
+                    }
+                    else {
+                        $("#deleteModal .close").click();
+                        $('body').prepend('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="close">×</button>' +
+                            data.message +'</div>');
+                    }
                 }
             });
         }
