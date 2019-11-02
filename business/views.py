@@ -1,11 +1,8 @@
 from django.views.generic import TemplateView, View
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
 import requests
 import json
 from django.http import JsonResponse
-from urllib.request import urlopen
-from django.utils.dateformat import DateFormat
 import datetime
 from django.contrib import messages
 
