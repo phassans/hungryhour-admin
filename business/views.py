@@ -11,11 +11,11 @@ from django.contrib import messages
 
 
 class IndexPageView(TemplateView):
-    template_name = 'main/index.html'
+    template_name = 'business/index.html'
 
 
 class BusinessPageView(TemplateView):
-    template_name = 'main/business.html'
+    template_name = 'business/business.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super(BusinessPageView, self).get_context_data(
@@ -30,7 +30,7 @@ class BusinessPageView(TemplateView):
 
 
 class ListingPageView(TemplateView):
-    template_name = 'main/listing.html'
+    template_name = 'business/listing.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super(ListingPageView, self).get_context_data(
@@ -53,15 +53,15 @@ class BusinessListingPageView(View):
         business_listing = response.json()
         context = {'business_listing': business_listing}
         print(context)
-        return render(request, 'main/business_listing.html', context)
+        return render(request, 'business/business_listing.html', context)
 
 
 class AddBusinessPageView(TemplateView):
-    template_name = 'main/addbusiness.html'
+    template_name = 'business/addbusiness.html'
 
 
 class AddListingPageView(TemplateView):
-    template_name = 'main/addlisting.html'
+    template_name = 'business/addlisting.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super(AddListingPageView, self).get_context_data(
@@ -150,7 +150,7 @@ def InsertListing(request):
 
 
 class ChangeLanguageView(TemplateView):
-    template_name = 'main/change_language.html'
+    template_name = 'business/change_language.html'
 
 
 class BusinessEditView(View):
@@ -160,7 +160,7 @@ class BusinessEditView(View):
             'https://www.itshungryhour.com/api/v1/business?businessId=' + str(id))
         business_list = response.json()
         context = {'data': business_list}
-        return render(request, 'main/editbusiness.html', context)
+        return render(request, 'business/editbusiness.html', context)
 
     def post(self, request, id):
         day = request.POST.getlist('day[]')
@@ -227,7 +227,7 @@ class BusinessListingEditView(View):
         listing_data = response.json()
         print(listing_data)
         context = {'listing_data': listing_data}
-        return render(request, 'main/listing_edit.html', context)
+        return render(request, 'business/listing_edit.html', context)
 
     def post(self, request, id):
         print(id)
