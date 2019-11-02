@@ -2,6 +2,13 @@
 {% load bootstrap4 %}
 {% load i18n %}
 
+<!--Load CSS and JavaScript-->
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+<!--Display django.contrib.messages as Bootstrap alerts-->
+{% bootstrap_messages %}
+
 {% get_current_language as language_code %}
 
 <!DOCTYPE html>
