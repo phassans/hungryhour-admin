@@ -2,13 +2,43 @@ from django.views.generic import TemplateView, View
 from django.shortcuts import render, redirect
 import requests
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 import datetime
 from django.contrib import messages
 
 
-class IndexPageView(TemplateView):
+class IndexPageView(View):
     template_name = 'business/index.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        print(request.POST)
+        response = requests.post('https://www.itshungryhour.com/api/v1/user/verify',
+                                 data=json.dumps(request.POST))
+        if response.status_code == 200:
+            messages.success(request, "Successfully logged in.")
+            return redirect('business')
+        messages.error(request, response.text)
+        return HttpResponseRedirect(request.path_info)
+
+
+class RegisterView(View):
+    template_name = 'business/register.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        print(request.POST)
+        response = requests.post('https://www.itshungryhour.com/api/v1/user/add',
+                                 data=json.dumps(request.POST))
+        if response.status_code == 200:
+            messages.success(request, "Successfully registered.")
+            return redirect('business')
+        messages.error(request, response.text)
+        return HttpResponseRedirect(request.path_info)
 
 
 class BusinessPageView(TemplateView):
