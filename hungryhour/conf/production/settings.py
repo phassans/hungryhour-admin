@@ -27,7 +27,6 @@ INSTALLED_APPS = [
 
     # Application apps
     'business',
-    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -63,16 +62,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hungryhour.wsgi.application'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-DEFAULT_FROM_EMAIL = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 465
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -95,16 +84,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-ENABLE_USER_ACTIVATION = True
-DISABLE_USERNAME = False
-LOGIN_VIA_EMAIL = False
-LOGIN_VIA_EMAIL_OR_USERNAME = True
-LOGIN_REDIRECT_URL = 'index'
-LOGIN_URL = 'accounts:log_in'
-USE_REMEMBER_ME = False
-
-RESTORE_PASSWORD_VIA_EMAIL_OR_USERNAME = True
-EMAIL_ACTIVATION_AFTER_CHANGING = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 3600
+SESSION_SAVE_EVERY_REQUEST = True
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
@@ -133,7 +115,3 @@ STATICFILES_DIRS = [
 LOCALE_PATHS = [
     os.path.join(CONTENT_DIR, 'locale')
 ]
-
-SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
-if DISABLE_USERNAME:
-    SIGN_UP_FIELDS = ['first_name', 'last_name', 'email', 'password1', 'password2']

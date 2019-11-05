@@ -53,33 +53,15 @@ class LogoutView(View):
         return redirect('login')
 
 
-class BusinessPageView(UserRequiredMixin, TemplateView):
+class BusinessView(UserRequiredMixin, View):
     template_name = 'business/business.html'
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(BusinessPageView, self).get_context_data(
-            *args, **kwargs)
-        context['message'] = 'Hello World!'
+    def get(self, request):
         response = requests.get(
             'https://www.itshungryhour.com/api/v1/business/all')
-        data = response.json()
-        # print(data)
-        context['data'] = data
-        return context
-
-
-class ListingPageView(UserRequiredMixin, TemplateView):
-    template_name = 'business/listing.html'
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(ListingPageView, self).get_context_data(
-            *args, **kwargs)
-        response = requests.get(
-            'https://www.itshungryhour.com/api/v1/business/all')
-        print(response)
         business_list = response.json()
-        context['business_list'] = business_list
-        return context
+        context = {'data': business_list}
+        return render(request, self.template_name, context)
 
 
 class BusinessListingPageView(UserRequiredMixin, View):
@@ -95,101 +77,105 @@ class BusinessListingPageView(UserRequiredMixin, View):
         return render(request, 'business/business_listing.html', context)
 
 
-class AddBusinessPageView(UserRequiredMixin, TemplateView):
-    template_name = 'business/addbusiness.html'
+class BusinessAddView(UserRequiredMixin, View):
+    template_name = 'business/business_add.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        website = request.POST.get('website')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        street = request.POST.get('street')
+        postalCode = request.POST.get('postalCode')
+        cuisine = request.POST.getlist('cuisine')
+        day = request.POST.getlist('day[]')
+        # print(day)
+        open_time_session_one = request.POST.getlist('open_time_session_one[]')
+        open_time_session_two = request.POST.getlist('open_time_session_two[]')
+        close_time_session_one = request.POST.getlist('close_time_session_one[]')
+        close_time_session_two = request.POST.getlist('close_time_session_two[]')
+        hours = []
+        for x in range(7):
+            # print(day[x])
+            if open_time_session_one[x] != '':
+                hours.append({'day': day[x],
+                              'open_time_session_one': open_time_session_one[x],
+                              'close_time_session_one': close_time_session_one[x],
+                              'open_time_session_two': open_time_session_two[x],
+                              'close_time_session_two': close_time_session_two[x]})
+        userid = 1
+        # hours = json.dumps(hours)
+        print(hours)
+        # for item in request.POST.items():
+        #     print(item)
+        payload = {'userId': userid,
+                   'name': name,
+                   'phone': phone,
+                   'website': website,
+                   'city': city,
+                   'state': state,
+                   'street': street,
+                   'postalCode': postalCode,
+                   'cuisine': cuisine,
+                   'hours': hours,
+                   }
+        response = requests.post(
+            'https://www.itshungryhour.com/api/v1//business/add', data=json.dumps(payload))
+        print(response.text)
+        if response.status_code == 200:
+            messages.success(request, 'Business added successfully.')
+        else:
+            messages.error(request, response.text)
+        return redirect('business')
 
 
-class AddListingPageView(UserRequiredMixin, TemplateView):
-    template_name = 'business/addlisting.html'
+class ListingPageView(UserRequiredMixin, View):
+    template_name = 'business/listing.html'
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(AddListingPageView, self).get_context_data(
-            *args, **kwargs)
-        context['message'] = 'Hello World!'
+    def get(self, request):
         response = requests.get(
             'https://www.itshungryhour.com/api/v1/business/all')
-        data = response.json()
-        # print(data)
-        context['business_list'] = data
-        return context
+        print(response)
+        business_list = response.json()
+        context = {'business_list': business_list}
+        return render(request, self.template_name, context)
 
 
-def InsertBusiness(request):
-    name = request.POST.get('name')
-    phone = request.POST.get('phone')
-    website = request.POST.get('website')
-    city = request.POST.get('city')
-    state = request.POST.get('state')
-    street = request.POST.get('street')
-    postalCode = request.POST.get('postalCode')
-    cuisine = request.POST.getlist('cuisine')
-    day = request.POST.getlist('day[]')
-    # print(day)
-    open_time_session_one = request.POST.getlist('open_time_session_one[]')
-    open_time_session_two = request.POST.getlist('open_time_session_two[]')
-    close_time_session_one = request.POST.getlist('close_time_session_one[]')
-    close_time_session_two = request.POST.getlist('close_time_session_two[]')
-    hours = []
-    for x in range(7):
-        # print(day[x])
-        if open_time_session_one[x] != '':
-            hours.append({'day': day[x],
-                          'open_time_session_one': open_time_session_one[x],
-                          'close_time_session_one': close_time_session_one[x],
-                          'open_time_session_two': open_time_session_two[x],
-                          'close_time_session_two': close_time_session_two[x]})
-    userid = 1
-    # hours = json.dumps(hours)
-    print(hours)
-    # for item in request.POST.items():
-    #     print(item)
-    payload = {'userId': userid,
-               'name': name,
-               'phone': phone,
-               'website': website,
-               'city': city,
-               'state': state,
-               'street': street,
-               'postalCode': postalCode,
-               'cuisine': cuisine,
-               'hours': hours,
-               }
-    response = requests.post(
-        'https://www.itshungryhour.com/api/v1//business/add', data=json.dumps(payload))
-    print(response.text)
-    if response.status_code == 200:
-        messages.success(request, 'Business added successfully.')
-    else:
-        messages.error(request, response.text)
-    return redirect('business')
+class ListingAddView(UserRequiredMixin, View):
+    template_name = 'business/listing_add.html'
 
+    def get(self, request):
+        response = requests.get(
+            'https://www.itshungryhour.com/api/v1/business/all')
+        business_list = response.json()
+        context = {'business_list': business_list}
+        return render(request, self.template_name, context)
 
-def InsertListing(request):
-    start_date = datetime.datetime.strptime(request.POST.get('startDate'), "%Y-%m-%d").date().strftime('%m/%d/%Y')
-    end_date = datetime.datetime.strptime(request.POST.get('recurringEndDate'), "%Y-%m-%d").date().strftime('%m/%d/%Y')
-    print(request.POST)
-    print(request.FILES.getlist('images'))
-    # # headers = {
-    #     'Content-type': 'multipart/form-data;boundary=f0d7eb0b58c94f8ea3e665e28cffffdc'}
-    response = requests.post(
-        'https://www.itshungryhour.com/api/v1/listing/add',
-        files=dict(images=request.FILES['images']),
-        data=dict(businessId=request.POST.get('businessId'), title=request.POST.get('title'),
-                  discountDescription=request.POST.get('discountDescription'),
-                  description=request.POST.get('description'), startDate=start_date,
-                  recurringEndDate=end_date, startTime=request.POST.get('startTime'),
-                  endTime=request.POST.get('endTime'),
-                  recurringDays=request.POST.getlist('recurringDays')))
-    print(response.text)
-    if response.status_code == 200:
-        messages.success(request, 'Listing added successfully.')
-    else:
-        messages.error(request, response.text)
-    return redirect('listing')
-
-
-class ChangeLanguageView(UserRequiredMixin, TemplateView):
-    template_name = 'business/change_language.html'
+    def post(self, request):
+        start_date = datetime.datetime.strptime(request.POST.get('startDate'), "%Y-%m-%d").date().strftime('%m/%d/%Y')
+        end_date = datetime.datetime.strptime(request.POST.get('recurringEndDate'), "%Y-%m-%d").date().strftime(
+            '%m/%d/%Y')
+        print(request.POST)
+        print(request.FILES.getlist('images'))
+        response = requests.post(
+            'https://www.itshungryhour.com/api/v1/listing/add',
+            files=dict(images=request.FILES['images']),
+            data=dict(businessId=request.POST.get('businessId'), title=request.POST.get('title'),
+                      discountDescription=request.POST.get('discountDescription'),
+                      description=request.POST.get('description'), startDate=start_date,
+                      recurringEndDate=end_date, startTime=request.POST.get('startTime'),
+                      endTime=request.POST.get('endTime'),
+                      recurringDays=request.POST.getlist('recurringDays')))
+        print(response.text)
+        if response.status_code == 200:
+            messages.success(request, 'Listing added successfully.')
+        else:
+            messages.error(request, response.text)
+        return redirect('listing')
 
 
 class BusinessEditView(UserRequiredMixin, View):
@@ -199,7 +185,7 @@ class BusinessEditView(UserRequiredMixin, View):
             'https://www.itshungryhour.com/api/v1/business?businessId=' + str(id))
         business_list = response.json()
         context = {'data': business_list}
-        return render(request, 'business/editbusiness.html', context)
+        return render(request, 'business/business_edit.html', context)
 
     def post(self, request, id):
         day = request.POST.getlist('day[]')

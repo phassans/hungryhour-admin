@@ -4,7 +4,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Business</h6>
-            <a href="business/add" class="mt-2 btn btn-primary btn-icon-split btn-sm float-right">
+            <a href="{% url 'business_add' %}" class="mt-2 btn btn-primary btn-icon-split btn-sm float-right">
                 <span class="text">Add New Business</span>
             </a>
         </div>
@@ -76,7 +76,7 @@
             $.ajax ({
                 headers: { "X-CSRFToken": token },
                 type:"POST",
-                url: 'business/delete/' + businessId,
+                url: '/business/delete/' + businessId,
                 success: function (data) {
                     if (data.deleted){
                         let table = $('#dataTable').DataTable();
