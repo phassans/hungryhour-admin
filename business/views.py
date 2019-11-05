@@ -7,8 +7,12 @@ import datetime
 from django.contrib import messages
 
 
-class IndexPageView(View):
+class IndexPageView(TemplateView):
     template_name = 'business/index.html'
+
+
+class LoginView(View):
+    template_name = 'business/login.html'
 
     def get(self, request):
         return render(request, self.template_name)

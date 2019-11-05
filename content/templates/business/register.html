@@ -1,4 +1,4 @@
-{% extends 'layouts/default/master_layout.html' %}
+{% extends 'layouts/default/home_layout.html' %}
 {% load i18n %}
 {% block content %}
     <div class="container">
@@ -52,7 +52,7 @@
 {#                                <a class="small" href="forgot-password.html">Forgot Password?</a>#}
 {#                            </div>#}
                             <div class="text-center">
-                                <a class="small" href="{% url 'index' %}">Already have an account? Login!</a>
+                                <a class="small" href="{% url 'login' %}">Already have an account? Login!</a>
                             </div>
                         </div>
                     </div>
