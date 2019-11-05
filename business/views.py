@@ -8,10 +8,6 @@ from django.contrib import messages
 from .mixins import UserRequiredMixin
 
 
-class IndexPageView(TemplateView):
-    template_name = 'business/index.html'
-
-
 class LoginView(View):
     template_name = 'business/login.html'
 
@@ -25,6 +21,7 @@ class LoginView(View):
         if response.status_code == 200:
             messages.success(request, "Successfully logged in.")
             request.session['userId'] = response.json().get('userId')
+            request.session['fullName'] = response.json().get('fullName')
             return redirect('business')
         messages.error(request, response.text)
         return HttpResponseRedirect(request.path_info)
@@ -43,6 +40,7 @@ class RegisterView(View):
         if response.status_code == 200:
             messages.success(request, "Successfully registered.")
             request.session['userId'] = response.json().get('userId')
+            request.session['fullName'] = response.json().get('fullName')
             return redirect('business')
         messages.error(request, response.text)
         return HttpResponseRedirect(request.path_info)
