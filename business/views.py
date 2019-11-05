@@ -5,6 +5,7 @@ import json
 from django.http import JsonResponse, HttpResponseRedirect
 import datetime
 from django.contrib import messages
+from .mixins import UserRequiredMixin
 
 
 class IndexPageView(TemplateView):
@@ -23,6 +24,7 @@ class LoginView(View):
                                  data=json.dumps(request.POST))
         if response.status_code == 200:
             messages.success(request, "Successfully logged in.")
+            request.session['userId'] = response.json().get('userId')
             return redirect('business')
         messages.error(request, response.text)
         return HttpResponseRedirect(request.path_info)
@@ -40,12 +42,20 @@ class RegisterView(View):
                                  data=json.dumps(request.POST))
         if response.status_code == 200:
             messages.success(request, "Successfully registered.")
+            request.session['userId'] = response.json().get('userId')
             return redirect('business')
         messages.error(request, response.text)
         return HttpResponseRedirect(request.path_info)
 
 
-class BusinessPageView(TemplateView):
+class LogoutView(View):
+
+    def get(self, request):
+        request.session['userId'] = None
+        return redirect('login')
+
+
+class BusinessPageView(UserRequiredMixin, TemplateView):
     template_name = 'business/business.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -60,7 +70,7 @@ class BusinessPageView(TemplateView):
         return context
 
 
-class ListingPageView(TemplateView):
+class ListingPageView(UserRequiredMixin, TemplateView):
     template_name = 'business/listing.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -74,7 +84,7 @@ class ListingPageView(TemplateView):
         return context
 
 
-class BusinessListingPageView(View):
+class BusinessListingPageView(UserRequiredMixin, View):
 
     def get(self, request, id):
         print(id)
@@ -87,11 +97,11 @@ class BusinessListingPageView(View):
         return render(request, 'business/business_listing.html', context)
 
 
-class AddBusinessPageView(TemplateView):
+class AddBusinessPageView(UserRequiredMixin, TemplateView):
     template_name = 'business/addbusiness.html'
 
 
-class AddListingPageView(TemplateView):
+class AddListingPageView(UserRequiredMixin, TemplateView):
     template_name = 'business/addlisting.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -180,11 +190,11 @@ def InsertListing(request):
     return redirect('listing')
 
 
-class ChangeLanguageView(TemplateView):
+class ChangeLanguageView(UserRequiredMixin, TemplateView):
     template_name = 'business/change_language.html'
 
 
-class BusinessEditView(View):
+class BusinessEditView(UserRequiredMixin, View):
 
     def get(self, request, id):
         response = requests.get(
@@ -225,7 +235,7 @@ class BusinessEditView(View):
         return redirect('business')
 
 
-class BusinessDeleteView(View):
+class BusinessDeleteView(UserRequiredMixin, View):
 
     def post(self, request, id):
         print(id)
@@ -238,7 +248,7 @@ class BusinessDeleteView(View):
         return JsonResponse(data)
 
 
-class BusinessListingAjaxView(View):
+class BusinessListingAjaxView(UserRequiredMixin, View):
 
     def get(self, request):
         print(request.GET)
@@ -250,7 +260,7 @@ class BusinessListingAjaxView(View):
         return JsonResponse(context)
 
 
-class BusinessListingEditView(View):
+class BusinessListingEditView(UserRequiredMixin, View):
 
     def get(self, request, id):
         response = requests.get(
@@ -283,7 +293,7 @@ class BusinessListingEditView(View):
         return redirect('listing')
 
 
-class BusinessListingDeleteView(View):
+class BusinessListingDeleteView(UserRequiredMixin, View):
 
     def post(self, request, id):
         print(id)
