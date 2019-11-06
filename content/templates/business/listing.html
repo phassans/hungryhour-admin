@@ -11,7 +11,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Business Listing</h6>
-            <a href="listing/add" class="mt-2 btn btn-primary btn-icon-split btn-sm float-right">
+            <a href="{% url 'listing_add' %}" class="mt-2 btn btn-primary btn-icon-split btn-sm float-right">
                 <span class="text">Add New Listing</span>
             </a>
         </div>
@@ -59,7 +59,7 @@
             $.ajax ({
                 headers: { "X-CSRFToken": token },
                 type:"POST",
-                url: 'listing/delete/' + listingId,
+                url: '/listing/delete/' + listingId,
                 success: function (data) {
                     if (data.deleted){
                         let table = $('#dataTable').DataTable();
@@ -89,7 +89,7 @@
                 if (this.value) {
                     $.ajax ({
                         type:"GET",
-                        url: 'listing/all',
+                        url: '/listing/all/',
                         data: {'business_id': this.value},
                         success: function (data) {
                             console.log(data);
@@ -109,7 +109,7 @@
                                         '<td>' + businessListing[i]["endTime"] + '</td>' +
                                         '<td><img src=' + businessListing[i]["imageLink"] +
                                         ' class="img-fluid img-thumbnail"></img></td>' +
-                                        '<td> <a href="listing/edit/' + businessListing[i]["listingId"] +
+                                        '<td> <a href="/listing/edit/' + businessListing[i]["listingId"] +
                                         '" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-edit">' +
                                         '</i></a> <button onclick="modalData(' + businessListing[i]["listingId"] +
                                         ')" id="delete-' + businessListing[i]["listingId"] + '"' +
