@@ -58,7 +58,7 @@ class BusinessView(UserRequiredMixin, View):
 
     def get(self, request):
         response = requests.get(
-            'https://www.itshungryhour.com/api/v1/business/all')
+            'https://www.itshungryhour.com/api/v1/business/all', params={'userId': request.session.get('userId')})
         business_list = response.json()
         context = {'data': business_list}
         return render(request, self.template_name, context)
@@ -69,7 +69,7 @@ class BusinessListingPageView(UserRequiredMixin, View):
     def get(self, request, id):
         print(id)
         response = requests.post('https://www.itshungryhour.com/api/v1//listing/all',
-                                 data=json.dumps({"businessId": id}))
+                                 data=json.dumps({"businessId": id, "userId": request.session.get('userId')}))
         print(response.text)
         business_listing = response.json()
         context = {'business_listing': business_listing}
@@ -107,12 +107,11 @@ class BusinessAddView(UserRequiredMixin, View):
                               'close_time_session_one': close_time_session_one[x],
                               'open_time_session_two': open_time_session_two[x],
                               'close_time_session_two': close_time_session_two[x]})
-        userid = 1
         # hours = json.dumps(hours)
         print(hours)
         # for item in request.POST.items():
         #     print(item)
-        payload = {'userId': userid,
+        payload = {'userId': request.session.get('userId'),
                    'name': name,
                    'phone': phone,
                    'website': website,
@@ -138,7 +137,7 @@ class ListingPageView(UserRequiredMixin, View):
 
     def get(self, request):
         response = requests.get(
-            'https://www.itshungryhour.com/api/v1/business/all')
+            'https://www.itshungryhour.com/api/v1/business/all', params={'userId': request.session.get('userId')})
         print(response)
         business_list = response.json()
         context = {'business_list': business_list}
@@ -150,7 +149,7 @@ class ListingAddView(UserRequiredMixin, View):
 
     def get(self, request):
         response = requests.get(
-            'https://www.itshungryhour.com/api/v1/business/all')
+            'https://www.itshungryhour.com/api/v1/business/all', params={'userId': request.session.get('userId')})
         business_list = response.json()
         context = {'business_list': business_list}
         return render(request, self.template_name, context)
@@ -168,7 +167,7 @@ class ListingAddView(UserRequiredMixin, View):
                       discountDescription=request.POST.get('discountDescription'),
                       description=request.POST.get('description'), startDate=start_date,
                       recurringEndDate=end_date, startTime=request.POST.get('startTime'),
-                      endTime=request.POST.get('endTime'),
+                      endTime=request.POST.get('endTime'), userId=request.session.get('userId'),
                       recurringDays=request.POST.getlist('recurringDays')))
         print(response.text)
         if response.status_code == 200:
@@ -182,7 +181,8 @@ class BusinessEditView(UserRequiredMixin, View):
 
     def get(self, request, id):
         response = requests.get(
-            'https://www.itshungryhour.com/api/v1/business?businessId=' + str(id))
+            'https://www.itshungryhour.com/api/v1/business',
+            params={'businessId': id, 'userId': request.session.get('userId')})
         business_list = response.json()
         context = {'data': business_list}
         return render(request, 'business/business_edit.html', context)
@@ -202,7 +202,8 @@ class BusinessEditView(UserRequiredMixin, View):
                               'open_time_session_two': open_time_session_two[x],
                               'close_time_session_two': close_time_session_two[x]})
         print(hours)
-        data = {'userId': 1, 'name': request.POST.get('name'), 'phone': request.POST.get('phone'),
+        data = {'userId': request.session.get('userId'), 'name': request.POST.get('name'),
+                'phone': request.POST.get('phone'),
                 'website': request.POST.get('website'), 'city': request.POST.get('city'),
                 'state': request.POST.get('state'), 'street': request.POST.get('street'),
                 'postalCode': request.POST.get('postalCode'), 'businessId': id,
@@ -224,7 +225,7 @@ class BusinessDeleteView(UserRequiredMixin, View):
     def post(self, request, id):
         print(id)
         response = requests.post('https://www.itshungryhour.com/api/v1//business/delete',
-                                 data=json.dumps({"businessId": id}))
+                                 data=json.dumps({"businessId": id, "userId": request.session.get('userId')}))
         if response.status_code == 200:
             data = {'deleted': True}
         else:
@@ -237,7 +238,8 @@ class BusinessListingAjaxView(UserRequiredMixin, View):
     def get(self, request):
         print(request.GET)
         response = requests.post('https://www.itshungryhour.com/api/v1//listing/all',
-                                 data=json.dumps({"businessId": int(request.GET.get('business_id'))}))
+                                 data=json.dumps({"businessId": int(request.GET.get('business_id')),
+                                                  "userId": request.session.get('userId')}))
         print(response.status_code==200)
         business_listing = response.json()
         context = {'business_listing': business_listing}
@@ -248,7 +250,8 @@ class BusinessListingEditView(UserRequiredMixin, View):
 
     def get(self, request, id):
         response = requests.get(
-            'https://www.itshungryhour.com/api/v1/listing/admin?listingId=' + str(id))
+            'https://www.itshungryhour.com/api/v1/listing/admin',
+            params={'listingId': id, 'userId': request.session.get('userId')})
         listing_data = response.json()
         print(listing_data)
         context = {'listing_data': listing_data}
@@ -264,7 +267,7 @@ class BusinessListingEditView(UserRequiredMixin, View):
                 'title': request.POST.get('title'), 'discountDescription': request.POST.get('discountDescription'),
                 'description': request.POST.get('description'), 'startDate': start_date,
                 'recurringEndDate': end_date, 'startTime': request.POST.get('startTime'),
-                'endTime': request.POST.get('endTime'),
+                'endTime': request.POST.get('endTime'), 'userId': request.session.get('userId'),
                 'recurringDays': request.POST.getlist('recurringDays')}
         print(data)
         response = requests.post('https://www.itshungryhour.com/api/v1//listing/edit',
@@ -282,7 +285,7 @@ class BusinessListingDeleteView(UserRequiredMixin, View):
     def post(self, request, id):
         print(id)
         response = requests.post('https://www.itshungryhour.com/api/v1//listing/delete',
-                                 data=json.dumps({"listingId": id}))
+                                 data=json.dumps({"listingId": id, "userId": request.session.get('userId')}))
         if response.status_code == 200:
             data = {'deleted': True}
         else:
