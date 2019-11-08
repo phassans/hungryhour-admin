@@ -78,7 +78,7 @@
             $.ajax ({
                 headers: { "X-CSRFToken": token },
                 type:"POST",
-                url: '/listing/delete/' + listingId,
+                url: '/admin/listing/delete/' + listingId,
                 success: function (data) {
                     let table = $('#dataTable').DataTable();
                     table.row($('#delete-'+listingId).closest('tr')).remove().draw();

@@ -28,7 +28,7 @@
                             <td>{{ d.city }}</td>
                             <td>{{ d.postalCode }}</td>
                             <td>
-                                <a href="/business/edit/{{d.businessId}}" class="btn btn-primary btn-circle btn-sm">
+                                <a href="{% url 'business_edit' d.businessId %}" class="btn btn-primary btn-circle btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <a href="{% url 'business_listing' d.businessId %}" class="btn btn-primary btn-circle btn-sm">
@@ -76,7 +76,7 @@
             $.ajax ({
                 headers: { "X-CSRFToken": token },
                 type:"POST",
-                url: '/business/delete/' + businessId,
+                url: '/admin/business/delete/' + businessId,
                 success: function (data) {
                     if (data.deleted){
                         let table = $('#dataTable').DataTable();
