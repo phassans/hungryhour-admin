@@ -1,13 +1,6 @@
 {% extends 'layouts/default/master_layout.html' %}
 {% load i18n %}
 {% block content %}
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="{{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Business Listing</h6>
@@ -59,7 +52,7 @@
             $.ajax ({
                 headers: { "X-CSRFToken": token },
                 type:"POST",
-                url: '/listing/delete/' + listingId,
+                url: '/admin/listing/delete/' + listingId,
                 success: function (data) {
                     if (data.deleted){
                         let table = $('#dataTable').DataTable();
@@ -89,7 +82,7 @@
                 if (this.value) {
                     $.ajax ({
                         type:"GET",
-                        url: '/listing/all/',
+                        url: '/admin/listing/all/',
                         data: {'business_id': this.value},
                         success: function (data) {
                             console.log(data);
@@ -109,7 +102,7 @@
                                         '<td>' + businessListing[i]["endTime"] + '</td>' +
                                         '<td><img src=' + businessListing[i]["imageLink"] +
                                         ' class="img-fluid img-thumbnail"></img></td>' +
-                                        '<td> <a href="/listing/edit/' + businessListing[i]["listingId"] +
+                                        '<td> <a href="/admin/listing/edit/' + businessListing[i]["listingId"] +
                                         '" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-edit">' +
                                         '</i></a> <button onclick="modalData(' + businessListing[i]["listingId"] +
                                         ')" id="delete-' + businessListing[i]["listingId"] + '"' +
