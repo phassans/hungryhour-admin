@@ -23,7 +23,10 @@ class LoginView(View):
             request.session['userId'] = response.json().get('userId')
             request.session['fullName'] = response.json().get('fullName')
             return redirect('business')
-        messages.error(request, response.text)
+        try:
+            messages.error(request, response.json().get('message').split('"')[-2])
+        except:
+            messages.error(request, response.text)
         return HttpResponseRedirect(request.path_info)
 
 
@@ -42,7 +45,10 @@ class RegisterView(View):
             request.session['userId'] = response.json().get('userId')
             request.session['fullName'] = response.json().get('fullName')
             return redirect('business')
-        messages.error(request, response.text)
+        try:
+            messages.error(request, response.json().get('message').split('"')[-2])
+        except:
+            messages.error(request, response.text)
         return HttpResponseRedirect(request.path_info)
 
 
@@ -93,42 +99,33 @@ class BusinessAddView(UserRequiredMixin, View):
         postalCode = request.POST.get('postalCode')
         cuisine = request.POST.getlist('cuisine')
         day = request.POST.getlist('day[]')
-        # print(day)
         open_time_session_one = request.POST.getlist('open_time_session_one[]')
         open_time_session_two = request.POST.getlist('open_time_session_two[]')
         close_time_session_one = request.POST.getlist('close_time_session_one[]')
         close_time_session_two = request.POST.getlist('close_time_session_two[]')
         hours = []
         for x in range(7):
-            # print(day[x])
             if open_time_session_one[x] != '':
                 hours.append({'day': day[x],
                               'open_time_session_one': open_time_session_one[x],
                               'close_time_session_one': close_time_session_one[x],
                               'open_time_session_two': open_time_session_two[x],
                               'close_time_session_two': close_time_session_two[x]})
-        # hours = json.dumps(hours)
         print(hours)
-        # for item in request.POST.items():
-        #     print(item)
         payload = {'userId': request.session.get('userId'),
-                   'name': name,
-                   'phone': phone,
-                   'website': website,
-                   'city': city,
-                   'state': state,
-                   'street': street,
-                   'postalCode': postalCode,
-                   'cuisine': cuisine,
-                   'hours': hours,
-                   }
+                   'name': name, 'phone': phone, 'website': website, 'city': city,
+                   'state': state, 'street': street, 'postalCode': postalCode,
+                   'cuisine': cuisine, 'hours': hours}
         response = requests.post(
             'https://www.itshungryhour.com/api/v1//business/add', data=json.dumps(payload))
         print(response.text)
         if response.status_code == 200:
             messages.success(request, 'Business added successfully.')
         else:
-            messages.error(request, response.text)
+            try:
+                messages.error(request, response.json().get('message').split('"')[-2])
+            except:
+                messages.error(request, response.text)
         return redirect('business')
 
 
@@ -173,7 +170,10 @@ class ListingAddView(UserRequiredMixin, View):
         if response.status_code == 200:
             messages.success(request, 'Listing added successfully.')
         else:
-            messages.error(request, response.text)
+            try:
+                messages.error(request, response.json().get('message').split('"')[-2])
+            except:
+                messages.error(request, response.text)
         return redirect('listing')
 
 
@@ -216,7 +216,10 @@ class BusinessEditView(UserRequiredMixin, View):
         if response.status_code == 200:
             messages.success(request, 'Business updated successfully.')
         else:
-            messages.error(request, response.text)
+            try:
+                messages.error(request, response.json().get('message').split('"')[-2])
+            except:
+                messages.error(request, response.text)
         return redirect('business')
 
 
@@ -276,7 +279,10 @@ class BusinessListingEditView(UserRequiredMixin, View):
         if response.status_code == 200:
             messages.success(request, 'Listing updated successfully.')
         else:
-            messages.error(request, response.text)
+            try:
+                messages.error(request, response.json().get('message').split('"')[-2])
+            except:
+                messages.error(request, response.text)
         return redirect('listing')
 
 
