@@ -12,6 +12,7 @@ urlpatterns = [
     path('business/delete/<int:id>', BusinessDeleteView.as_view(), name='business_delete'),
     path('business/<int:id>/listing/', BusinessListingPageView.as_view(), name='business_listing'),
     path('listing/', ListingPageView.as_view(), name='listing'),
+    path('business/<int:id>/listing/add/', BusinessListingAddView.as_view(), name='business_listing_add'),
     path('listing/add/', ListingAddView.as_view(), name='listing_add'),
     path('listing/all/', BusinessListingAjaxView.as_view(), name='listing_all'),
     path('listing/edit/<int:id>/', BusinessListingEditView.as_view(), name='listing_edit'),

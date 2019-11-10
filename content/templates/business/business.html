@@ -15,9 +15,9 @@
                         <tr>
                             <th>Name</th>
                             <th>Phone</th>
-                            <th>city</th>
-                            <th>postal code</th>
-                            <th>edit</th>
+                            <th>City</th>
+                            <th>Postal code</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,6 +30,9 @@
                             <td>
                                 <a href="{% url 'business_edit' d.businessId %}" class="btn btn-primary btn-circle btn-sm">
                                     <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'business_listing_add' d.businessId %}" class="btn btn-primary btn-circle btn-sm">
+                                    <i class="fas fa-plus"></i>
                                 </a>
                                 <a href="{% url 'business_listing' d.businessId %}" class="btn btn-primary btn-circle btn-sm">
                                     <i class="fas fa-list"></i>
