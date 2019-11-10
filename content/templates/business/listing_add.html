@@ -10,23 +10,31 @@
     {% endif %}
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Add Listing</h6>
+            {% if business_name %}
+                <h6 class="m-0 font-weight-bold text-primary">Add Listing for {{ business_name }}</h6>
+            {% else %}
+                <h6 class="m-0 font-weight-bold text-primary">Add Listing</h6>
+            {% endif %}
         </div>
 
         <div class="card-body">
-            <form id="listingForm" method="post" enctype="multipart/form-data">
+            <form id="listingForm" method="post" action="{% url 'listing_add' %}" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Select business</label>
-                        <select name="businessId" id="businessList" class="form-control">
-{#                            <option class="disabled" value="">Choose a business</option>#}
-                            {% for business in business_list %}
-                            <option value="{{ business.businessId }}">{{ business.name }}</option>
-                            {% endfor %}
-                        </select>
+                {% if business_id %}
+                    <input type="hidden" id="businessId" name="businessId" value="{{business_id}}">
+                {% else %}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Select business</label>
+                            <select name="businessId" id="businessList" class="form-control">
+    {#                            <option class="disabled" value="">Choose a business</option>#}
+                                {% for business in business_list %}
+                                <option value="{{ business.businessId }}">{{ business.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="title">Title</label>
