@@ -1,145 +1,182 @@
 {% extends 'layouts/default/master_layout.html' %}
 {% load i18n %}
 {% block content %}
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="{{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            {% if business_name %}
-                <h6 class="m-0 font-weight-bold text-primary">Add Listing for {{ business_name }}</h6>
-            {% else %}
-                <h6 class="m-0 font-weight-bold text-primary">Add Listing</h6>
-            {% endif %}
-        </div>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        {% if business_name %}
+        <h6 class="m-0 font-weight-bold text-primary">Add Listing for {{ business_name }}</h6>
+        {% else %}
+        <h6 class="m-0 font-weight-bold text-primary">Add Listing</h6>
+        {% endif %}
+    </div>
 
-        <div class="card-body">
-            <form id="listingForm" method="post" action="{% url 'listing_add' %}" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% if business_id %}
-                    <input type="hidden" id="businessId" name="businessId" value="{{business_id}}">
-                {% else %}
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label>Select business</label>
-                            <select name="businessId" id="businessList" class="form-control">
-    {#                            <option class="disabled" value="">Choose a business</option>#}
-                                {% for business in business_list %}
-                                <option value="{{ business.businessId }}">{{ business.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+    <div class="card-body">
+        <form id="listingForm" method="post" action="{% url 'listing_add' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if business_id %}
+            <input type="hidden" id="businessId" name="businessId" value="{{business_id}}">
+            {% else %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Business*</label>
+                    <select name="businessId" id="businessList" class="form-control">
+                        { <option class="disabled" value="0">Choose a business</option>}
+                        {% for business in business_list %}
+                        <option value="{{ business.businessId }}">{{ business.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% endif %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="title">Title*</label>
+                    <input type="text" class="form-control" name="title" required id="title" placeholder="Title">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="discountDescription">Discount*</label>
+                    <input type="text" class="form-control" name="discountDescription" required id="discountDescription"
+                        placeholder="Discount Description">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description">Description*</label>
+                <textarea class="form-control" id="description" name="description" required placeholder="Description"
+                    rows="3"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="startDate">Start Date*</label>
+                    <input type="date" class="form-control" name="startDate" id="startDate" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="recurringEndDate">End Date*</label>
+                    <input type="date" class="form-control" name="recurringEndDate" id="recurringEndDate" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="startTime">Start Time*</label>
+                    <input type="time" class="form-control" name="startTime" id="startTime" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="endTime">End Time*</label>
+                    <input type="time" class="form-control" name="endTime" id="endTime" required>
+                </div>
+            </div>
+            <div class="form-group row recurring-days">
+                <div class="col-sm-2">Recurring Days*</div>
+                <div class="col-sm-10">
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="monday"
+                            id="monday">
+                        <label class="custom-control-label" for="monday">Monday</label>
                     </div>
-                {% endif %}
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control" name="title" required id="title" placeholder="Title">
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="tuesday"
+                            id="tuesday">
+                        <label class="custom-control-label" for="tuesday">Tuesday</label>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="discountDescription">Discount Description</label>
-                        <input type="text" class="form-control" name="discountDescription" id="discountDescription"
-                               placeholder="Discount Description">
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="wednesday"
+                            id="wednesday">
+                        <label class="custom-control-label" for="wednesday">Wednesday</label>
+                    </div>
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="thursday"
+                            id="thursday">
+                        <label class="custom-control-label" for="thursday">Thursday</label>
+                    </div>
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="friday"
+                            id="friday">
+                        <label class="custom-control-label" for="friday">Friday</label>
+                    </div>
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="saturday"
+                            id="saturday">
+                        <label class="custom-control-label" for="saturday">Saturday</label>
+                    </div>
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="sunday"
+                            id="sunday">
+                        <label class="custom-control-label" for="sunday">Sunday</label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea class="form-control" id="description" name="description" required
-                              placeholder="Description" rows="3"></textarea>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="startDate">Start Date</label>
-                        <input type="date" class="form-control" name="startDate" id="startDate" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="recurringEndDate">Recurring End-Date</label>
-                        <input type="date" class="form-control" name="recurringEndDate" id="recurringEndDate" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="startTime">Start Time</label>
-                        <input type="time" class="form-control" name="startTime" id="startTime" required step="1">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="endTime">End Time</label>
-                        <input type="time" class="form-control" name="endTime" id="endTime" required step="1">
-                    </div>
-                </div>
-                <div class="form-group row recurring-days">
-                    <div class="col-sm-2">Recurring Days</div>
-                    <div class="col-sm-10">
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="monday" id="monday">
-                            <label class="custom-control-label" for="monday">Monday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="tuesday" id="tuesday">
-                            <label class="custom-control-label" for="tuesday">Tuesday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="wednesday" id="wednesday">
-                            <label class="custom-control-label" for="wednesday">Wednesday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="thursday" id="thursday">
-                            <label class="custom-control-label" for="thursday">Thursday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="friday" id="friday">
-                            <label class="custom-control-label" for="friday">Friday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="saturday" id="saturday">
-                            <label class="custom-control-label" for="saturday">Saturday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="sunday" id="sunday">
-                            <label class="custom-control-label" for="sunday">Sunday</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                    <label for="images">Images</label>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="images">Images*</label>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" name="images" id="images"
-                               aria-describedby="fileHelp" required accept="image/*"
-                               value="Choose file" onchange="handleFiles(this.files)" multiple>
+                            aria-describedby="fileHelp" required accept="image/*" value="Choose file"
+                            onchange="handleFiles(this.files)" multiple>
                         <label class="custom-file-label" for="images">Select file...</label>
                     </div>
-                    </div>
                 </div>
+            </div>
 
-                <div class="text-center">
-                    <button type="submit" class="mt-5 btn btn-primary btn-icon-split">
-                        <span class="text">Add Listing</span>
-                    </button>
-                </div>
-            </form>
-        </div>
+            <div class="text-center">
+                <button type="submit" class="mt-5 btn btn-primary btn-icon-split">
+                    <span class="text">Add Listing</span>
+                </button>
+            </div>
+        </form>
     </div>
-    <script>
-        function handleFiles(files){
-            console.log(files);
-            fileUrl = (window.URL ? URL : webkitURL).createObjectURL(files[0]);
-            $('.custom-file').append('<img src=' + fileUrl + ' class="img-responsive img-thumbnail" ' +
-                'style="max-height: 50px; max-width: 50px; margin:10px">')
+</div>
+<script>
+    function handleFiles(files) {
+        console.log(files);
+        fileUrl = (window.URL ? URL : webkitURL).createObjectURL(files[0]);
+        $('.custom-file').append('<img src=' + fileUrl + ' class="img-responsive img-thumbnail" ' +
+            'style="max-height: 50px; max-width: 50px; margin:10px">')
+    }
+
+    function change(selBox) {
+        for (var i, j = 0; i = selBox.options[j]; j++) {
+            if (i.value == "b" && selBox.selectedIndex != 0) {
+                alert("you've clicked b");
+                selBox.selectedIndex = 0;
+            }
         }
-        $(document).ready(function() {
-            $('#listingForm').submit(function() {
-                checked = $("input[type=checkbox][name='recurringDays']:checked").length;
-                if(!checked) {
-                    alert("You must check at least one checkbox.");
-                    return false;
-                }
-                return true;
-            });
+    }
+
+    function setDate(targetElement) {
+        var date = new Date();
+        month = '' + (date.getMonth() + 1);
+        day = '' + date.getDate();
+        year = date.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+        targetElement.val(year + '-' + month + '-' + day);
+    }
+
+    $(document).ready(function () {
+        setDate($('#startDate'));
+        $('#listingForm').submit(function () {
+            checked = $("input[type=checkbox][name='recurringDays']:checked").length;
+            if (!checked) {
+                alert("You must check at least one recurring day.");
+                return false;
+            }
+            var e = document.getElementById("businessList");
+            var val = e.options[e.selectedIndex].value;
+            if (val == 0) {
+                alert("Please select a business.");
+                return false;
+            }
+            return true;
         });
-    </script>
+    });
+</script>
 {% endblock %}

@@ -1,182 +1,192 @@
 {% extends 'layouts/default/master_layout.html' %}
 {% load i18n %}
 {% block content %}
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="{{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Change Listing</h6>
-        </div>
-        <div class="card-body">
-            <form action="" method="post" id="listingForm" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="hidden" id="businessId" name="businessId" value="{{listing_data.businessId}}">
-                <input type="hidden" id="listingId" name="listingId" value="{{listing_data.listingId}}">
-                <input type="hidden" id="startDateObj" name="startDateObj" value="{{listing_data.startDate}}">
-                <input type="hidden" id="recurringEndDateObj" name="recurringEndDateObj" value="{{listing_data.recurringEndDate}}">
-                <input type="hidden" id="startTimeObj" name="startTimeObj" value="{{listing_data.startTime}}">
-                <input type="hidden" id="endTimeObj" name="endTimeObj" value="{{listing_data.endTime}}">
-                <input type="hidden" id="recurringDaysObj" name="recurringDaysObj" value="{{listing_data.recurringDays}}">
-                <input type="hidden" id="listingImages" name="listingImages" value="{{listing_data.listingImages}}">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control" name="title" required id="title" placeholder="Title"
-                               value="{{listing_data.title}}">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="discountDescription">Discount Description</label>
-                        <input type="text" class="form-control" name="discountDescription" id="discountDescription"
-                               placeholder="Discount Description" value="{{listing_data.discountDescription}}">
-                    </div>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Change Listing</h6>
+    </div>
+    <div class="card-body">
+        <form action="" method="post" id="listingForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="businessId" name="businessId" value="{{listing_data.businessId}}">
+            <input type="hidden" id="listingId" name="listingId" value="{{listing_data.listingId}}">
+            <input type="hidden" id="startDateObj" name="startDateObj" value="{{listing_data.startDate}}">
+            <input type="hidden" id="recurringEndDateObj" name="recurringEndDateObj"
+                value="{{listing_data.recurringEndDate}}">
+            <input type="hidden" id="startTimeObj" name="startTimeObj" value="{{listing_data.startTime}}">
+            <input type="hidden" id="endTimeObj" name="endTimeObj" value="{{listing_data.endTime}}">
+            <input type="hidden" id="recurringDaysObj" name="recurringDaysObj" value="{{listing_data.recurringDays}}">
+            <input type="hidden" id="listingImages" name="listingImages" value="{{listing_data.listingImages}}">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="title">Title*</label>
+                    <input type="text" class="form-control" name="title" required id="title" placeholder="Title"
+                        value="{{listing_data.title}}">
                 </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea class="form-control" id="description" name="description" required
-                              placeholder="Description" rows="3">{{listing_data.description}}</textarea>
+                <div class="form-group col-md-6">
+                    <label for="discountDescription">Discount*</label>
+                    <input type="text" class="form-control" name="discountDescription" id="discountDescription"
+                        placeholder="Discount Description" value="{{listing_data.discountDescription}}" required>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="startDate">Start Date</label>
-                        <input type="date" class="form-control" name="startDate" id="startDate" required
-                               value="{{listing_data.startDate}}">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="recurringEndDate">Recurring End-Date</label>
-                        <input type="date" class="form-control" name="recurringEndDate" id="recurringEndDate" required
-                               value="{{listing_data.recurringEndDate}}">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label for="description">Description*</label>
+                <textarea class="form-control" id="description" name="description" required placeholder="Description"
+                    rows="3">{{listing_data.description}}</textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="startDate">Start Date*</label>
+                    <input type="date" class="form-control" name="startDate" id="startDate" required
+                        value="{{listing_data.startDate}}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="recurringEndDate">End-Date*</label>
+                    <input type="date" class="form-control" name="recurringEndDate" id="recurringEndDate" required
+                        value="{{listing_data.recurringEndDate}}">
+                </div>
 
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="startTime">Start Time*</label>
+                    <input type="time" class="form-control" name="startTime" id="startTime" required>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="startTime">Start Time</label>
-                        <input type="time" class="form-control" name="startTime" id="startTime" required step="1">
+                <div class="form-group col-md-6">
+                    <label for="endTime">End Time*</label>
+                    <input type="time" class="form-control" name="endTime" id="endTime" required>
+                </div>
+            </div>
+            <div class="form-group row recurring-days">
+                <div class="col-sm-2">Recurring Days*</div>
+                <div class="col-sm-10">
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="monday"
+                            id="monday">
+                        <label class="custom-control-label" for="monday">Monday</label>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="endTime">End Time</label>
-                        <input type="time" class="form-control" name="endTime" id="endTime" required step="1">
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="tuesday"
+                            id="tuesday">
+                        <label class="custom-control-label" for="tuesday">Tuesday</label>
+                    </div>
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="wednesday"
+                            id="wednesday">
+                        <label class="custom-control-label" for="wednesday">Wednesday</label>
+                    </div>
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="thursday"
+                            id="thursday">
+                        <label class="custom-control-label" for="thursday">Thursday</label>
+                    </div>
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="friday"
+                            id="friday">
+                        <label class="custom-control-label" for="friday">Friday</label>
+                    </div>
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="saturday"
+                            id="saturday">
+                        <label class="custom-control-label" for="saturday">Saturday</label>
+                    </div>
+                    <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" name="recurringDays" value="sunday"
+                            id="sunday">
+                        <label class="custom-control-label" for="sunday">Sunday</label>
                     </div>
                 </div>
-                <div class="form-group row recurring-days">
-                    <div class="col-sm-2">Recurring Days</div>
-                    <div class="col-sm-10">
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="monday" id="monday">
-                            <label class="custom-control-label" for="monday">Monday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="tuesday" id="tuesday">
-                            <label class="custom-control-label" for="tuesday">Tuesday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="wednesday" id="wednesday">
-                            <label class="custom-control-label" for="wednesday">Wednesday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="thursday" id="thursday">
-                            <label class="custom-control-label" for="thursday">Thursday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="friday" id="friday">
-                            <label class="custom-control-label" for="friday">Friday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="saturday" id="saturday">
-                            <label class="custom-control-label" for="saturday">Saturday</label>
-                        </div>
-                        <div class="custom-control custom-checkbox custom-control-inline my-1 mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" name="recurringDays" value="sunday" id="sunday">
-                            <label class="custom-control-label" for="sunday">Sunday</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                    <label for="images">Images</label>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="images">Images*</label>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" name="images" id="images"
-                               aria-describedby="fileHelp" multiple accept="image/*"
-                               value="{{listing_data.imageLink}}" onchange="handleFiles(this.files)">
+                            aria-describedby="fileHelp" multiple accept="image/*" value="{{listing_data.imageLink}}"
+                            onchange="handleFiles(this.files)">
                         <label class="custom-file-label" for="images">Select file...</label>
                     </div>
-                    </div>
                 </div>
-                <div class="text-center">
-                    <button type="submit" class="mt-5 btn btn-primary btn-icon-split">
-                        <span class="text">Change Listing</span>
-                    </button>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="mt-5 btn btn-primary btn-icon-split">
+                    <span class="text">Change Listing</span>
+                </button>
+            </div>
+        </form>
     </div>
-    <script>
-        function handleFiles(files){
-            console.log(files);
-            fileUrl = (window.URL ? URL : webkitURL).createObjectURL(files[0]);
-            $('.custom-file').append('<img src=' + fileUrl + ' class="img-responsive img-thumbnail" ' +
-                'style="max-height: 50px; max-width: 50px; margin:10px">')
-        }
-        function setDate(element, targetElement) {
-            var date = new Date(element.val());
-            month = '' + (date.getMonth() + 1);
-            day = '' + date.getDate();
-            year = date.getFullYear();
+</div>
+<script>
+    function handleFiles(files) {
+        console.log(files);
+        fileUrl = (window.URL ? URL : webkitURL).createObjectURL(files[0]);
+        $('.custom-file').append('<img src=' + fileUrl + ' class="img-responsive img-thumbnail" ' +
+            'style="max-height: 50px; max-width: 50px; margin:10px">')
+    }
 
-            if (month.length < 2)
-                month = '0' + month;
-            if (day.length < 2)
-                day = '0' + day;
-            targetElement.val(year + '-' + month + '-' + day);
-        }
-        function setTime(element, targetElement) {
-            var timeArray = element.val().substring(11,19).split(':');
-            targetElement.val(timeArray[0] + ':' + timeArray[1] + ':' + timeArray[2]);
-        }
-        $(document).ready(function(){
-            var startDateObj = $('#startDateObj');
-            var startDate = $('#startDate');
-            var recurringEndDateObj = $('#recurringEndDateObj');
-            var recurringEndDate = $('#recurringEndDate');
-            var startTimeObj = $('#startTimeObj');
-            var startTime = $('#startTime');
-            var endTimeObj = $('#endTimeObj');
-            var endTime = $('#endTime');
-            setDate(startDateObj, startDate);
-            setDate(recurringEndDateObj, recurringEndDate);
-            setTime(startTimeObj, startTime);
-            setTime(endTimeObj, endTime);
-            var recurringDaysObj = $('#recurringDaysObj').val().replace(/'/g, '"');
-            if (recurringDaysObj) {
-                var recurringArray = JSON.parse(recurringDaysObj);
-                for (day=0; day<recurringArray.length; day++) {
-                    $("#" + recurringArray[day]).prop('checked', true);
-                }
+    function setDate(element, targetElement) {
+        var date = new Date(element.val());
+        month = '' + (date.getMonth() + 1);
+        day = '' + date.getDate();
+        year = date.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+        targetElement.val(year + '-' + month + '-' + day);
+    }
+
+    function setTime(element, targetElement) {
+        var timeArray = element.val().substring(11, 19).split(':');
+        targetElement.val(timeArray[0] + ':' + timeArray[1] + ':' + timeArray[2]);
+    }
+    $(document).ready(function () {
+        var startDateObj = $('#startDateObj');
+        var startDate = $('#startDate');
+        var recurringEndDateObj = $('#recurringEndDateObj');
+        var recurringEndDate = $('#recurringEndDate');
+        var startTimeObj = $('#startTimeObj');
+        var startTime = $('#startTime');
+        var endTimeObj = $('#endTimeObj');
+        var endTime = $('#endTime');
+        setDate(startDateObj, startDate);
+        setDate(recurringEndDateObj, recurringEndDate);
+        setTime(startTimeObj, startTime);
+        setTime(endTimeObj, endTime);
+        var recurringDaysObj = $('#recurringDaysObj').val().replace(/'/g, '"');
+        if (recurringDaysObj) {
+            var recurringArray = JSON.parse(recurringDaysObj);
+            for (day = 0; day < recurringArray.length; day++) {
+                $("#" + recurringArray[day]).prop('checked', true);
             }
-            var listingImages = $('#listingImages').val().replace(/'/g, '"');
-            console.log(listingImages);
-            if (listingImages) {
-                var listingImagesArray = JSON.parse(listingImages);
-                console.log(listingImagesArray);
-                for (url=0; url<listingImagesArray.length; url++) {
-                    $('.custom-file').append('<img src=' + listingImagesArray[url] +
-                        ' class="img-responsive img-thumbnail" ' +
-                        'style="max-height: 50px; max-width: 50px; margin:10px">')
-                }
+        }
+        var listingImages = $('#listingImages').val().replace(/'/g, '"');
+        console.log(listingImages);
+        if (listingImages) {
+            var listingImagesArray = JSON.parse(listingImages);
+            console.log(listingImagesArray);
+            for (url = 0; url < listingImagesArray.length; url++) {
+                $('.custom-file').append('<img src=' + listingImagesArray[url] +
+                    ' class="img-responsive img-thumbnail" ' +
+                    'style="max-height: 50px; max-width: 50px; margin:10px">')
             }
-            $('#listingForm').submit(function() {
-                checked = $("input[type=checkbox][name='recurringDays']:checked").length;
-                if(!checked) {
-                    alert("You must check at least one checkbox.");
-                    return false;
-                }
-                return true;
-            });
+        }
+        $('#listingForm').submit(function () {
+            checked = $("input[type=checkbox][name='recurringDays']:checked").length;
+            if (!checked) {
+                alert("You must check at least one checkbox.");
+                return false;
+            }
+            return true;
         });
-    </script>
+    });
+</script>
 {% endblock %}
