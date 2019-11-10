@@ -145,7 +145,7 @@ class BusinessListingAddView(UserRequiredMixin, View):
     template_name = 'business/listing_add.html'
 
     def get(self, request, id):
-        context = {'business_id': id}
+        context = {'business_id': id, 'business_name': request.GET.get('name')}
         return render(request, self.template_name, context)
 
 

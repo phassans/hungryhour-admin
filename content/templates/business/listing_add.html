@@ -10,7 +10,11 @@
     {% endif %}
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Add Listing</h6>
+            {% if business_name %}
+                <h6 class="m-0 font-weight-bold text-primary">Add Listing for {{ business_name }}</h6>
+            {% else %}
+                <h6 class="m-0 font-weight-bold text-primary">Add Listing</h6>
+            {% endif %}
         </div>
 
         <div class="card-body">
